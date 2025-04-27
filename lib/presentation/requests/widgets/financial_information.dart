@@ -2,6 +2,7 @@ import 'package:economic_team_desktop/presentation/requests/widgets/drop_down_fi
 import 'package:economic_team_desktop/presentation/requests/widgets/number_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FinancialInformation extends StatelessWidget {
   const FinancialInformation({super.key});
@@ -15,7 +16,7 @@ class FinancialInformation extends StatelessWidget {
     ]; // Consider moving to constants
 
     return Column(
-      spacing: 22,
+      spacing: 22.h,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -30,28 +31,27 @@ class FinancialInformation extends StatelessWidget {
             ),
           ),
         ),
-        NumberPicker(
-          label: 'Expected price:',
-          value:350, //int.tryParse(state.price) ?? 350,
-          onChanged: (p0) {
-            
-          },
-              // (val) => context.read<SalePropertyBloc>().add(
-              //   UpdatePriceEvent(price: val.toString()),
-              // ),
-          suffix: '\$',
+        Expanded(
+          child: NumberPicker(
+            label: 'Expected price:',
+            value: 350, //int.tryParse(state.price) ?? 350,
+            onChanged: (p0) {},
+            // (val) => context.read<SalePropertyBloc>().add(
+            //   UpdatePriceEvent(price: val.toString()),
+            // ),
+            suffix: '\$',
+          ),
         ),
-        DropdownField(
-          label: 'Pay Way:',
-          items: payWays,
-          selectedValue:'glossy',
-          onChanged: 
-          (p0) {
-            
-          },
-              // (val) => context.read<SalePropertyBloc>().add(
-              //   UpdatePayWayEvent(payWay: val),
-              // ),
+        Expanded(
+          child: DropdownField(
+            label: 'Pay Way:',
+            items: payWays,
+            selectedValue: 'glossy',
+            onChanged: (p0) {},
+            // (val) => context.read<SalePropertyBloc>().add(
+            //   UpdatePayWayEvent(payWay: val),
+            // ),
+          ),
         ),
       ],
     );

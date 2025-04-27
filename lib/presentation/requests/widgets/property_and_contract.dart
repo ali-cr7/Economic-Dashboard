@@ -46,14 +46,16 @@ class ProertyAndContract extends StatelessWidget {
               onChanged: (value) {},
             ),
           ),
-          DropdownField(
-            label: 'Contract:',
-            items: conractTypes,
-            selectedValue: 'Buying',
-            onChanged: (p0) {},
-            // (val) => context.read<SalePropertyBloc>().add(
-            //   UpdatePayWayEvent(payWay: val),
-            // ),
+          Expanded(
+            child: DropdownField(
+              label: 'Contract:',
+              items: conractTypes,
+              selectedValue: 'Buying',
+              onChanged: (p0) {},
+              // (val) => context.read<SalePropertyBloc>().add(
+              //   UpdatePayWayEvent(payWay: val),
+              // ),
+            ),
           ),
         ],
       ),

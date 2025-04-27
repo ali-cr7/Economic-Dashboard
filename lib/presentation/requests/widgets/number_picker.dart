@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NumberPicker extends StatefulWidget {
   final String label;
@@ -23,22 +24,22 @@ class _NumberPickerState extends State<NumberPicker> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20.0),
+      padding: EdgeInsets.only(left: 20.0.w),
       child: Row(
-        spacing: 10,
+        spacing: 10.w,
         children: [
           Text(
             widget.label,
             style: TextStyle(
               color: Colors.black.withValues(alpha: 80),
-              fontSize: 14,
+              fontSize: 14.sp,
               fontFamily: 'Inter',
               fontWeight: FontWeight.w400,
             ),
           ),
           Container(
-            width: 107,
-            height: 26.63,
+            width: 107.w,
+            height: 30.63.h,
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -49,21 +50,25 @@ class _NumberPickerState extends State<NumberPicker> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
+                  padding: EdgeInsets.only(left: 12.0.w),
                   child: Text(
                     '${widget.value}',
-                    style: const TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 14.sp),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 7.0, top: 5.0),
+                  padding: EdgeInsets.only(
+                    right: 7.0.w,
+                    top: 1.0.h,
+                    //   bottom: 9.0.h,
+                  ),
                   child: Column(
                     children: [
                       GestureDetector(
                         onTap: () => widget.onChanged(widget.value + 1),
                         child: Transform.rotate(
                           angle: 90 * (3.1415926535 / 180),
-                          child: const Icon(Icons.arrow_back_ios, size: 10),
+                          child: Icon(Icons.arrow_back_ios, size: 10.sp),
                         ),
                       ),
                       //
@@ -71,7 +76,7 @@ class _NumberPickerState extends State<NumberPicker> {
                         onTap: () => widget.onChanged(widget.value - 1),
                         child: Transform.rotate(
                           angle: -90 * (3.1415926535 / 180),
-                          child: const Icon(Icons.arrow_back_ios, size: 10),
+                          child: Icon(Icons.arrow_back_ios, size: 10.sp),
                         ),
                       ),
                     ],
@@ -82,7 +87,7 @@ class _NumberPickerState extends State<NumberPicker> {
           ),
           if (widget.suffix != null) ...[
             //  const SizedBox(width: 2),
-            Text(widget.suffix!, style: const TextStyle(fontSize: 14)),
+            Text(widget.suffix!, style: TextStyle(fontSize: 14.sp)),
           ],
         ],
       ),

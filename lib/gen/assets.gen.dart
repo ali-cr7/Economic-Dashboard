@@ -68,6 +68,9 @@ class $AssetsImagesGen {
                     /// File path: assets/images/auth_background.png
   AssetGenImage get photoICon =>
       const AssetGenImage('assets/images/photo_icon.png'); 
+                          /// File path: assets/images/auth_background.png
+  AssetGenImage get photos =>
+      const AssetGenImage('assets/images/photos.png'); 
   //profile-photo
   /// List of all assets
   List<AssetGenImage> get values => [

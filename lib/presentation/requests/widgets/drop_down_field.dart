@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DropdownField extends StatefulWidget {
   final String label;
@@ -30,23 +31,23 @@ class _DropdownFieldState extends State<DropdownField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20.0),
+      padding: EdgeInsets.only(left: 20.0.w),
       child: Row(
-        spacing: 10,
+        spacing: 10.w,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             widget.label,
             style: TextStyle(
               color: Colors.black.withValues(alpha: 80),
-              fontSize: 14,
+              fontSize: 14.sp,
               fontFamily: 'Inter',
               fontWeight: FontWeight.w400,
             ),
           ),
           Container(
-            width: 107,
-            height: 26.63,
+            width: 107.w,
+            height: 26.63.h,
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -55,8 +56,10 @@ class _DropdownFieldState extends State<DropdownField> {
             ),
 
             child: DropdownButtonHideUnderline(
+              
               child: DropdownButton<String>(
                 value: selectedItem,
+                
                 onChanged: (value) {
                   setState(() {
                     selectedItem = value!;
@@ -69,12 +72,12 @@ class _DropdownFieldState extends State<DropdownField> {
                           (item) => DropdownMenuItem(
                             value: item,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
+                              padding: EdgeInsets.only(left: 8.0.w),
                               child: Text(
                                 item,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -83,7 +86,7 @@ class _DropdownFieldState extends State<DropdownField> {
                           ),
                         )
                         .toList(),
-                icon: const Icon(Icons.keyboard_arrow_up, size: 18),
+                icon: Icon(Icons.keyboard_arrow_up, size: 18.sp),
                 dropdownColor: Colors.white,
               ),
             ),

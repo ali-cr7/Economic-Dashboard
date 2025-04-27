@@ -23,6 +23,9 @@ class HomeView extends StatelessWidget {
           children: [
             HomeHeader(title: 'Home',),
             CustomDivider(),
+            
+
+
             Row(
               spacing: 10.w,
               children: [

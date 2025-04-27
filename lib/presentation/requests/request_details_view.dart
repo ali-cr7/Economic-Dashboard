@@ -3,6 +3,7 @@ import 'package:economic_team_desktop/presentation/home/widgets/home_header.dart
 import 'package:economic_team_desktop/presentation/requests/widgets/economy_study.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/financial_information.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/location_info.dart';
+import 'package:economic_team_desktop/presentation/requests/widgets/negotiation_box.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/property_and_contract.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/property_description.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/property_images.dart';
@@ -25,132 +26,190 @@ class RequestDetailsView extends StatelessWidget {
 
         SizedBox(height: 20.h),
         CustomDivider(),
-        Row(
-          spacing: 20.w,
-          children: [
-            SaleEstateContainer(
-              height: 440,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PropertyDescriptionWidget(),
-              ),
-            ),
-            Column(
-              spacing: 10.h,
-              children: [
-                Row(
-                  spacing: 10.w,
+        Expanded(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Row(
+                  spacing: 20.w,
                   children: [
                     SaleEstateContainer(
-                      width: 290.w,
-                      height: 270.h,
-                      child: FinancialInformation(),
+                      height: 550.h,
+                      //  width: 700.w,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: PropertyDescriptionWidget(),
+                      ),
                     ),
-                    SaleEstateContainer(
-                      width: 290.w,
-                      height: 270.h,
-                      child: ProertyAndContract(),
+                    Column(
+                      spacing: 10.h,
+                      children: [
+                        Row(
+                          spacing: 10.w,
+                          children: [
+                            SaleEstateContainer(
+                              width: 290.w,
+                              height: 270.h,
+                              child: FinancialInformation(),
+                            ),
+                            SaleEstateContainer(
+                              width: 290.w,
+                              height: 270.h,
+                              child: ProertyAndContract(),
+                            ),
+                          ],
+                        ),
+                        SaleEstateContainer(
+                          //width: 390.w,
+                          height: 270.h,
+                          child: LoactionInformation(),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                SaleEstateContainer(
-                  //width: 390.w,
-                  height: 270.h,
-                  child: LoactionInformation(),
+              ),
+              SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+              SliverToBoxAdapter(
+                child: Row(
+                  spacing: 10.w,
+                  children: [
+                    SaleEstateContainer(
+                      width: 440.w,
+                      height: 580.h,
+                      //  width: 200,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: PropertyImagesUploader(
+                          isPropertyDocuments: true,
+                          title: "Property documents",
+                          maxImages: 8,
+                        ),
+                      ),
+                    ),
+                    SaleEstateContainer(
+                      width: 440.w,
+                      height: 580.h,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: PropertyImagesUploader(
+                          isIdImages: true,
+                          title: 'id images (2 faces):',
+                          maxImages: 2,
+                        ),
+                      ),
+                    ),
+                    SaleEstateContainer(
+                      width: 440.w,
+                      height: 580.h,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: PropertyImagesUploader(),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ],
+              ),
+              SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CustomDivider(),
+                    SizedBox(height: 16),
+                    Row(
+                      spacing: 20.w,
+                      children: [
+                        SaleEstateContainer(
+                          width: 605.h,
+                          height: 148.w,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Director notice:',
+                                  style: TextStyle(
+                                    color: const Color(0xFFC21932),
+                                    fontSize: 16.sp,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  'notice notice notice notice notice notice notice notice v notice notice v notice v vnotice,.',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SaleEstateContainer(
+                          width: 605.h,
+                          height: 148.w,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'negotiation offer:',
+                                  style: TextStyle(
+                                    color: const Color(0xFF27B055),
+                                    fontSize: 16.sp,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  'notice notice notice notice notice notice notice notice v notice notice v notice v vnotice,.',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    CustomDivider(),
+                    SizedBox(height: 16),
+                    EconomyStudySection(),
+                    SizedBox(height: 16),
+                    SimpleEconomyStudySection(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
 
-        Row(
-          children: [
-            SaleEstateContainer(
-              height: 280,
-              child: PropertyImagesUploader(
-                isPropertyDocuments: true,
-                title: "Property documents",
-                maxImages: 8,
-              ),
-            ),
-            SaleEstateContainer(
-              height: 215,
-              child: PropertyImagesUploader(
-                isIdImages: true,
-                title: 'id images (2 faces):',
-                maxImages: 2,
-              ),
-            ),
-            SaleEstateContainer(height: 280, child: PropertyImagesUploader()),
-          ],
-        ),
-        CustomDivider(),
-        Row(
-          spacing: 20.w,
-          children: [
-            SaleEstateContainer(
-              width: 605,
-              height: 148,
-              child: Column(
-                children: [
-                  Text(
-                    'Director notice:',
-                    style: TextStyle(
-                      color: const Color(0xFFC21932),
-                      fontSize: 20,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    'notice notice notice notice notice notice notice notice v notice notice v notice v vnotice,.',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SaleEstateContainer(
-              width: 605,
-              height: 148,
-              child: Column(
-                children: [
-                  Text(
-                    'Director notice:',
-                    style: TextStyle(
-                      color: const Color(0xFFC21932),
-                      fontSize: 20,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    'notice notice notice notice notice notice notice notice v notice notice v notice v vnotice,.',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-             CustomDivider(),
-        EconomyStudy(),
-SaleEstateContainer(
-height:280.h,
-width: 582.w,
-child:Column(children: [
-  
-],) ,)
+        //    CustomDivider(),
 
+        //    CustomDivider(),
+        //
+
+        // SaleEstateContainer(
+        // height:280.h,
+        // width: 582.w,
+        // child:Column(children: [
+
+        // ],) ,)
       ],
     );
   }
