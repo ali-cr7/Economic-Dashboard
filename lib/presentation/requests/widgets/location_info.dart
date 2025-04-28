@@ -40,12 +40,12 @@ class _LoactionInformationState extends State<LoactionInformation> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 12.0, top: 12.0),
+          padding:  EdgeInsets.only(left: 12.0, top: 12.0),
           child: Text(
             'Location information:',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 15,
+              fontSize: 15.sp,
               fontFamily: 'Inter',
               fontWeight: FontWeight.w400,
             ),

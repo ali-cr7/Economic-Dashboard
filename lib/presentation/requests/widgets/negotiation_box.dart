@@ -61,35 +61,37 @@ class _SimpleEconomyStudySectionState extends State<SimpleEconomyStudySection> {
                 },
               ),
             ),
-            SizedBox(height: 15.h),
-            Padding(
-              padding: EdgeInsets.only(left: 80.0.w),
-              child: Container(
-                width: 90.w,
-                height: 35.26.h,
-                decoration: ShapeDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment(0.00, 1.00),
-                    end: Alignment(1.00, 0.00),
-                    colors: [
-                      const Color(0xFF836BFD),
-                      const Color(0xFF6855CA),
-                      const Color(0xFF5B4AB0),
-                      const Color(0xFF4E3F97),
-                    ],
-                  ).withOpacity(0.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+            SizedBox(height: 10.h),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 80.0.w),
+                child: Container(
+                  width: 90.w,
+                  height: 35.26.h,
+                  decoration: ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(0.00, 1.00),
+                      end: Alignment(1.00, 0.00),
+                      colors: [
+                        const Color(0xFF836BFD),
+                        const Color(0xFF6855CA),
+                        const Color(0xFF5B4AB0),
+                        const Color(0xFF4E3F97),
+                      ],
+                    ).withOpacity(0.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Send',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w600,
+                  child: Center(
+                    child: Text(
+                      'Send',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),

@@ -38,7 +38,7 @@ class _NumberPickerState extends State<NumberPicker> {
             ),
           ),
           Container(
-            width: 107.w,
+            width: 70.w,
             height: 30.63.h,
             decoration: ShapeDecoration(
               color: Colors.white,

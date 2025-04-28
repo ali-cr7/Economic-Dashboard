@@ -11,6 +11,7 @@ import 'package:economic_team_desktop/presentation/requests/widgets/property_typ
 import 'package:economic_team_desktop/presentation/requests/widgets/sales_estate_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class RequestDetailsView extends StatelessWidget {
   const RequestDetailsView({super.key});
@@ -19,9 +20,28 @@ class RequestDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: HomeHeader(title: 'Request Details'),
+        // HomeHeader(title: ''),
+        Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                GoRouter.of(context).pop();
+              },
+              icon: Icon(Icons.arrow_back_ios),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Request Details',
+                style: TextStyle(
+                  color: Colors.black.withValues(alpha: 70),
+                  fontSize: 40.sp,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
         ),
 
         SizedBox(height: 20.h),
@@ -189,7 +209,7 @@ class RequestDetailsView extends StatelessWidget {
                     SizedBox(height: 16),
                     CustomDivider(),
                     SizedBox(height: 16),
-                    EconomyStudySection(),
+                    //  EconomyStudySection(),
                     SizedBox(height: 16),
                     SimpleEconomyStudySection(),
                   ],
