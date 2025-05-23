@@ -33,7 +33,7 @@ class _DropdownFieldState extends State<DropdownField> {
     return Padding(
       padding: EdgeInsets.only(left: 20.0.w),
       child: Row(
-        spacing: 10.w,
+        spacing: 5.w,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -46,20 +46,19 @@ class _DropdownFieldState extends State<DropdownField> {
             ),
           ),
           Container(
-            width: 107.w,
+            // width: 109.w,
             height: 26.63.h,
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
             ),
 
             child: DropdownButtonHideUnderline(
-              
               child: DropdownButton<String>(
                 value: selectedItem,
-                
+
                 onChanged: (value) {
                   setState(() {
                     selectedItem = value!;

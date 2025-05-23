@@ -4,25 +4,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PropertyDescriptionWidget extends StatefulWidget {
-  const PropertyDescriptionWidget({super.key});
+class PropertyDescriptionWidget extends StatelessWidget {
+  PropertyDescriptionWidget({
+    super.key,
+    this.space = 350,
+    this.numberOfRooms = 4,
+    this.numberOfBathrooms = 2,
+    this.flooringType = 'granite',
+    this.propertyAge = 2,
+    this.decoration = 'deluxe',
+    this.kitchenType = 'westren',
+    this.overlookFrom = 4,
+    this.balconySize = 100,
+    this.paintingType = 'regular',
+  });
 
-  @override
-  State<PropertyDescriptionWidget> createState() =>
-      _PropertyDescriptionWidgetState();
-}
-
-class _PropertyDescriptionWidgetState extends State<PropertyDescriptionWidget> {
+  final int space;
+  final int numberOfRooms;
+  final int numberOfBathrooms;
+  final String flooringType;
+  final int propertyAge;
+  final String decoration;
+  final String kitchenType;
+  final int overlookFrom;
+  final int balconySize;
+  final String paintingType;
   final List<String> decorations = ['deluxe', 'modern', 'classic'];
-  final List<String> kitchenTypes = ['western', 'open', 'closed'];
+
+  final List<String> kitchenTypes = ['westren', 'open', 'closed'];
+
   final List<String> flooringTypes = ['granite', 'marble', 'wood'];
+
   final List<String> paintingTypes = ['regular', 'matte', 'glossy'];
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       spacing: 15.h,
       children: [
+        SizedBox(height: 20.h),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -43,58 +65,64 @@ class _PropertyDescriptionWidgetState extends State<PropertyDescriptionWidget> {
         ),
         Expanded(
           child: Row(
+            //   spacing: 20.w,
             children: [
-              Column(
-                spacing: 22.h,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  NumberPicker(
-                    label: 'Space:',
-                    value: 350, // int.tryParse(state.area) ?? 350,
-                    onChanged: (p0) {},
-                    // (val) => context.read<SalePropertyBloc>().add(
-                    //   UpdateAreaEvent(area: val.toString()),
-                    // ),
-                    suffix: 'm²',
-                  ),
-                  NumberPicker(
-                    label: 'Number of rooms:',
-                    value: 4, //int.tryParse(state.numberOfRooms) ?? 4,
-                    onChanged: (p0) {},
-                    // (val) => context.read<SalePropertyBloc>().add(
-                    //   UpdateNumberOfRoomsEvent(numberOfRooms: val.toString()),
-                    // ),
-                  ),
-                  NumberPicker(
-                    label: 'Number of bathrooms:',
-                    value: 2, // int.tryParse(state.numberOfBathRooms) ?? 2,
-                    onChanged: (p0) {},
-                    // (val) => context.read<SalePropertyBloc>().add(
-                    //   UpdateNumberOfBathroomsEvent(
-                    //     numberOfBathrooms: val.toString(),
-                    //   ),
-                    // ),
-                  ),
+              Expanded(
+                child: Column(
+                  spacing: 22.h,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    NumberPicker(
+                      label: 'Space:',
+                      value: space, // int.tryParse(state.area) ?? 350,
+                      onChanged: (p0) {},
+                      // (val) => context.read<SalePropertyBloc>().add(
+                      //   UpdateAreaEvent(area: val.toString()),
+                      // ),
+                      suffix: 'm²',
+                    ),
+                    NumberPicker(
+                      label: 'Number of rooms:',
+                      value:
+                          numberOfRooms, //int.tryParse(state.numberOfRooms) ?? 4,
+                      onChanged: (p0) {},
+                      // (val) => context.read<SalePropertyBloc>().add(
+                      //   UpdateNumberOfRoomsEvent(numberOfRooms: val.toString()),
+                      // ),
+                    ),
+                    NumberPicker(
+                      label: 'Number of bathrooms:',
+                      value:
+                          numberOfBathrooms, // int.tryParse(state.numberOfBathRooms) ?? 2,
+                      onChanged: (p0) {},
+                      // (val) => context.read<SalePropertyBloc>().add(
+                      //   UpdateNumberOfBathroomsEvent(
+                      //     numberOfBathrooms: val.toString(),
+                      //   ),
+                      // ),
+                    ),
 
-                  DropdownField(
-                    label: 'Flooring type:',
-                    items: flooringTypes,
-                    selectedValue: 'granite',
-                    onChanged: (p0) {},
-                    // (val) => context.read<SalePropertyBloc>().add(
-                    //   UpdateFlooringTypeEvent(flooringType: val),
-                    // ),
-                  ),
-                  NumberPicker(
-                    label: 'Property age:',
-                    value: 2, // int.tryParse(state.propertyAge) ?? 2,
-                    onChanged: (p0) {},
-                    // (val) => context.read<SalePropertyBloc>().add(
-                    //   UpdatePropertyAgeEvent(propertyAge: val.toString()),
-                    // ),
-                    suffix: 'year',
-                  ),
-                ],
+                    DropdownField(
+                      label: 'Flooring type:',
+                      items: flooringTypes,
+                      selectedValue: flooringType,
+                      onChanged: (p0) {},
+                      // (val) => context.read<SalePropertyBloc>().add(
+                      //   UpdateFlooringTypeEvent(flooringType: val),
+                      // ),
+                    ),
+                    NumberPicker(
+                      label: 'Property age:',
+                      value:
+                          propertyAge, // int.tryParse(state.propertyAge) ?? 2,
+                      onChanged: (p0) {},
+                      // (val) => context.read<SalePropertyBloc>().add(
+                      //   UpdatePropertyAgeEvent(propertyAge: val.toString()),
+                      // ),
+                      suffix: 'year',
+                    ),
+                  ],
+                ),
               ),
               Expanded(
                 child: Column(
@@ -103,7 +131,7 @@ class _PropertyDescriptionWidgetState extends State<PropertyDescriptionWidget> {
                     DropdownField(
                       label: 'Decoration:',
                       items: decorations,
-                      selectedValue: 'deluxe',
+                      selectedValue: decoration,
                       onChanged: (p0) {},
                       // (val) => context.read<SalePropertyBloc>().add(
                       //   UpdateDecorationEvent(decoration: val),
@@ -112,7 +140,7 @@ class _PropertyDescriptionWidgetState extends State<PropertyDescriptionWidget> {
                     DropdownField(
                       label: 'Kitchen type:',
                       items: kitchenTypes,
-                      selectedValue: 'western',
+                      selectedValue: kitchenType,
                       onChanged: (p0) {},
                       // (val) => context.read<SalePropertyBloc>().add(
                       //   UpdateKitchenTypeEvent(kitchenType: val),
@@ -121,7 +149,8 @@ class _PropertyDescriptionWidgetState extends State<PropertyDescriptionWidget> {
 
                     NumberPicker(
                       label: 'Overlook from 10:',
-                      value: 4, // int.tryParse(state.overlookFrom) ?? 4,
+                      value:
+                          overlookFrom, // int.tryParse(state.overlookFrom) ?? 4,
                       onChanged: (p0) {},
                       // (val) => context.read<SalePropertyBloc>().add(
                       //   UpdateOverlookFromEvent(overlookFrom: val.toString()),
@@ -129,7 +158,8 @@ class _PropertyDescriptionWidgetState extends State<PropertyDescriptionWidget> {
                     ),
                     NumberPicker(
                       label: 'Balcony size:',
-                      value: 100, // int.tryParse(state.balconySize) ?? 100,
+                      value:
+                          balconySize, // int.tryParse(state.balconySize) ?? 100,
                       onChanged: (p0) {},
                       // (val) => context.read<SalePropertyBloc>().add(
                       //   UpdateBalconySizeEvent(balconySize: val.toString()),
@@ -139,7 +169,7 @@ class _PropertyDescriptionWidgetState extends State<PropertyDescriptionWidget> {
                     DropdownField(
                       label: 'Painting type:',
                       items: paintingTypes,
-                      selectedValue: 'regular',
+                      selectedValue: paintingType,
                       onChanged: (p0) {},
                       // (val) => context.read<SalePropertyBloc>().add(
                       //   UpdatePaintingTypeEvent(paintingType: val),

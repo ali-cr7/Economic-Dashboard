@@ -1,11 +1,16 @@
 import 'package:animations/animations.dart';
+import 'package:economic_team_desktop/buisness_logic/properties%20requests%20bloc/property_requests_bloc.dart';
+import 'package:economic_team_desktop/data/services/requests%20srevices/requsets_repo_impl.dart';
 import 'package:economic_team_desktop/gen/assets.gen.dart';
 import 'package:economic_team_desktop/presentation/home/home_view.dart';
+import 'package:economic_team_desktop/presentation/negotiation/negotaition_view.dart';
 import 'package:economic_team_desktop/presentation/profile/profile_view.dart';
 import 'package:economic_team_desktop/presentation/requests/reequest_view.dart';
 import 'package:economic_team_desktop/presentation/side%20bar/widgets/side_header.dart';
 import 'package:economic_team_desktop/presentation/side%20bar/widgets/sidebar_navigation.dart';
+import 'package:economic_team_desktop/utility/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SideNavigationBar extends StatefulWidget {
@@ -72,10 +77,15 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
       case 2:
         return const HistoryContent(key: ValueKey('History'));
       case 3:
-        return const RequestsView();
+        return BlocProvider(
+          create: (context) => PropertyRequestsBloc(getIt.get<RequsetsRepoImpl>())..add(GetPropertiesRequestEvent()),
+          child: const RequestsView(),
+        );
       case 4:
-        return const SettingsContent(key: ValueKey('Settings'));
+        return const NegotaitionView();
       case 5:
+        return const SettingsContent(key: ValueKey('Settings'));
+      case 6:
         return const LogoutContent(key: ValueKey('Logout'));
       default:
         return Container(key: const ValueKey('Empty'));
@@ -135,6 +145,15 @@ class HistoryContent extends StatelessWidget {
 
 class TransactionsContent extends StatelessWidget {
   const TransactionsContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: Text('Transactions Content'));
+  }
+}
+
+class NegotiationView extends StatelessWidget {
+  const NegotiationView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

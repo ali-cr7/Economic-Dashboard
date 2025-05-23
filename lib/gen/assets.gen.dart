@@ -71,7 +71,12 @@ class $AssetsImagesGen {
                           /// File path: assets/images/auth_background.png
   AssetGenImage get photos =>
       const AssetGenImage('assets/images/photos.png'); 
-  //profile-photo
+                               /// File path: assets/images/auth_background.png
+  AssetGenImage get negotiationIcon =>
+      const AssetGenImage('assets/images/negotiation (2).png'); 
+      AssetGenImage get saveIcon =>
+      const AssetGenImage('assets/images/save_icon.png'); 
+
   /// List of all assets
   List<AssetGenImage> get values => [
     appIcon2,

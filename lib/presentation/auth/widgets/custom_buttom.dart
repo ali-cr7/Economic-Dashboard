@@ -37,25 +37,28 @@ class CustomButton extends StatelessWidget {
         if (isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        return Center(
-          child: SizedBox(
-            width: 130,
-            height: 45,
-            child: Container(
-              decoration: ShapeDecoration(
-                gradient: AppColors.blueGradient,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+        return InkWell(
+          onTap: onPressed,
+          child: Center(
+            child: SizedBox(
+              width: 130,
+              height: 45,
+              child: Container(
+                decoration: ShapeDecoration(
+                  gradient: AppColors.blueGradient,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w600,
+                child: Center(
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),

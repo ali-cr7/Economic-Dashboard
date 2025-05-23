@@ -1,31 +1,29 @@
-import 'dart:io';
-import 'package:economic_team_desktop/gen/assets.gen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:economic_team_desktop/data/models/request_details_response/id_image.dart';
+import 'package:economic_team_desktop/data/models/request_details_response/property_document.dart';
+import 'package:economic_team_desktop/data/models/request_details_response/property_image.dart';
+import 'package:economic_team_desktop/utility/api_config/api_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-//import 'package:image_picker/image_picker.dart';
-// import 'package:salvest_app/business_logic/sale%20property%20bloc/sale_property_bloc.dart';
-
-// import 'package:salvest_app/utility/app_assests.dart';
 
 class PropertyImagesUploader extends StatelessWidget {
   final String title;
   final int maxImages;
-  final bool isIdImages;
-  final bool isPropertyDocuments;
+  final List<dynamic>? images;
 
   const PropertyImagesUploader({
     super.key,
     this.title = "Property images:",
     this.maxImages = 8,
-    this.isIdImages = false,
-    this.isPropertyDocuments = false,
+    this.images,
   });
 
   @override
   Widget build(BuildContext context) {
+    List<dynamic> filteredImages = images ?? [];
+
     return SingleChildScrollView(
-      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,7 +33,7 @@ class PropertyImagesUploader extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           const Text(
-            'notice: please make the photos clear and real',
+            'Notice: please make the photos clear and real.',
             style: TextStyle(
               color: Color(0x9EF1272A),
               fontSize: 12,
@@ -48,14 +46,15 @@ class PropertyImagesUploader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () {},
-                child: Assets.images.uploadIcon.image(),
+                onTap: () {
+                  // TODO: implement image upload
+                },
+                child: Icon(Icons.upload, size: 30.sp),
               ),
               const SizedBox(height: 10),
               Container(
                 width: 400.w,
                 height: 300.h,
-                //    padding: const EdgeInsets.all(8),
                 decoration: ShapeDecoration(
                   color: const Color(0x60D9D9D9),
                   shape: RoundedRectangleBorder(
@@ -65,18 +64,64 @@ class PropertyImagesUploader extends StatelessWidget {
                 child: GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: maxImages,
+                  itemCount:
+                      filteredImages.length + 1 <= maxImages
+                          ? filteredImages.length + 1
+                          : maxImages,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
                   ),
                   itemBuilder: (context, index) {
-                    return Assets.images.photoICon.image(
-                      // width: 0.01,
-                      // height: 0.01,
-                    );
-                  
+                    if (index < filteredImages.length) {
+                      final image = filteredImages[index];
+                      final path = _getImagePath(image);
+
+                      if (path == null) {
+                        return const Icon(Icons.error);
+                      }
+
+                      return GestureDetector(
+                        onTap: () {
+                          _showFullScreenImage(
+                            context,
+                            '${APIConfig.baseUrl}$path',
+                          );
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: CachedNetworkImage(
+                            imageUrl: '${APIConfig.baseUrl}$path',
+                            fit: BoxFit.cover,
+                            placeholder:
+                                (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                            errorWidget: (context, url, error) {
+                              debugPrint('Error loading image: $url, $error');
+                              return const Icon(Icons.error);
+                            },
+                          ),
+                        ),
+                      );
+                    } else {
+                      return GestureDetector(
+                        onTap: () {
+                          // TODO: handle adding new image
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(
+                            Icons.add_a_photo,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
@@ -85,170 +130,54 @@ class PropertyImagesUploader extends StatelessWidget {
         ],
       ),
     );
-    //  BlocBuilder<SalePropertyBloc, SalePropertyState>(
-    //   builder: (context, state) {
-    //     final images = isIdImages
-    //         ? state.idImages
-    //         : isPropertyDocuments
-    //             ? state.propertyDocument
-    //             : state.images;
-
-    //     return Container(
-    //       padding: const EdgeInsets.all(12),
-    //       decoration: BoxDecoration(
-    //         color: Colors.grey.shade100,
-    //         borderRadius: BorderRadius.circular(12),
-    //       ),
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           Text(
-    //             title,
-    //             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-    //           ),
-    //           const SizedBox(height: 4),
-    //           const Text(
-    //             'notice: please make the photos clear and real',
-    //             style: TextStyle(
-    //               color: Color(0x9EF1272A),
-    //               fontSize: 12,
-    //               fontFamily: 'Inter',
-    //               fontWeight: FontWeight.w400,
-    //             ),
-    //           ),
-    //           const SizedBox(height: 8),
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               GestureDetector(
-    //                 onTap: () => _uploadImage(context),
-    //                 child: Image.asset(
-    //                   AppAssets.uploadIcon,
-    //                   width: 24,
-    //                   height: 24,
-    //                   color: Colors.black,
-    //                 ),
-    //               ),
-    //               const SizedBox(height: 10),
-    //               Container(
-    //                 padding: const EdgeInsets.all(8),
-    //                 decoration: ShapeDecoration(
-    //                   color: const Color(0x60D9D9D9),
-    //                   shape: RoundedRectangleBorder(
-    //                     borderRadius: BorderRadius.circular(15),
-    //                   ),
-    //                 ),
-    //                 child: GridView.builder(
-    //                   shrinkWrap: true,
-    //                   physics: const NeverScrollableScrollPhysics(),
-    //                   itemCount: images.length < maxImages
-    //                       ? images.length + 1
-    //                       : images.length,
-    //                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    //                     crossAxisCount: 4,
-    //                     crossAxisSpacing: 8,
-    //                     mainAxisSpacing: 8,
-    //                   ),
-    //                   itemBuilder: (context, index) {
-    //                     if (index == images.length && images.length < maxImages) {
-    //                       return GestureDetector(
-    //                         onTap: () => _uploadImage(context),
-    //                         child: Container(
-    //                           decoration: BoxDecoration(
-    //                             color: Colors.grey.shade300,
-    //                             borderRadius: BorderRadius.circular(6),
-    //                           ),
-    //                           child: Image.asset(
-    //                             "assets/images/photo_icon.png",
-    //                             width: 40,
-    //                             height: 40,
-    //                           ),
-    //                         ),
-    //                       );
-    //                     }
-    //                     return Stack(
-    //                       children: [
-    //                         ClipRRect(
-    //                           borderRadius: BorderRadius.circular(6),
-    //                           child: Image.file(images[index], fit: BoxFit.cover),
-    //                         ),
-    //                         Positioned(
-    //                           top: 1,
-    //                           right: 2,
-    //                           child: GestureDetector(
-    //                             onTap: () => _removeImage(context, index),
-    //                             child: Container(
-    //                               padding: const EdgeInsets.all(2),
-    //                               decoration: const BoxDecoration(
-    //                                 color: Colors.redAccent,
-    //                                 shape: BoxShape.circle,
-    //                               ),
-    //                               child: const Icon(
-    //                                 Icons.close,
-    //                                 size: 16,
-    //                                 color: Colors.white,
-    //                               ),
-    //                             ),
-    //                           ),
-    //                         ),
-    //                       ],
-    //                     );
-    //                   },
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       ),
-    //     );
-    //   },
-    // );
   }
 
-  // Future<void> _uploadImage(BuildContext context) async {
-  //   final state = context.read<SalePropertyBloc>().state;
-  //   final currentImages = isIdImages
-  //       ? state.idImages
-  //       : isPropertyDocuments
-  //           ? state.propertyDocument
-  //           : state.images;
+  void _showFullScreenImage(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return GestureDetector(
+           onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Dialog(
+            backgroundColor: Colors.transparent,
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height * 0.8,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.black,
+                ),
+                clipBehavior: Clip.hardEdge,
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  fit: BoxFit.contain,
+                  placeholder:
+                      (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
-  //   if (currentImages.length >= maxImages) return;
-
-  //   final XFile? pickedFile = await ImagePicker().pickImage(
-  //     source: ImageSource.gallery,
-  //   );
-
-  //   if (pickedFile != null) {
-  //     final event = isIdImages
-  //         ? UpdateIdImagesEvent(idImages: [...currentImages, File(pickedFile.path)])
-  //         : isPropertyDocuments
-  //             ? UpdatePropertyDocumentsEvent(
-  //                 propertyDocuments: [...currentImages, File(pickedFile.path)])
-  //             : UpdateImagesEvent(images: [...currentImages, File(pickedFile.path)]);
-
-  //     context.read<SalePropertyBloc>().add(event);
-  //   }
-  // }
-
-  // void _removeImage(BuildContext context, int index) {
-  //   final state = context.read<SalePropertyBloc>().state;
-  //   final currentImages = isIdImages
-  //       ? List<File>.from(state.idImages)
-  //       : isPropertyDocuments
-  //           ? List<File>.from(state.propertyDocument)
-  //           : List<File>.from(state.images);
-
-  //   if (index >= 0 && index < currentImages.length) {
-  //     currentImages.removeAt(index);
-
-  //     final event = isIdImages
-  //         ? UpdateIdImagesEvent(idImages: currentImages)
-  //         : isPropertyDocuments
-  //             ? UpdatePropertyDocumentsEvent(propertyDocuments: currentImages)
-  //             : UpdateImagesEvent(images: currentImages);
-
-  //     context.read<SalePropertyBloc>().add(event);
-  //   }
-  // }
+  String? _getImagePath(dynamic image) {
+    try {
+      if (image == null) return null;
+      if (image is PropertyImage) return image.path;
+      if (image is PropertyDocument) return image.path;
+      if (image is IdImage) return image.path;
+      if (image is Map && image.containsKey('path')) return image['path'];
+      if (image is String) return image;
+    } catch (e) {
+      debugPrint('Failed to get image path: $e');
+    }
+    return null;
+  }
 }

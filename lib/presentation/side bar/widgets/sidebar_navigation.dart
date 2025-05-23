@@ -67,6 +67,17 @@ class SidebarNavigation extends StatelessWidget {
               onTap: () => onItemSelected(3),
             ),
           ),
+          Expanded(
+            child: _NavigationItem(
+              icon: Assets.images.negotiationIcon.image(
+                width: 25.w,
+                height: 25.w,
+              ),
+              label: 'Negotiation',
+              isSelected: selectedIndex == 4,
+              onTap: () => onItemSelected(4),
+            ),
+          ),
           SizedBox(height: 260.h),
           Container(
             width: 180.13.w,
@@ -85,8 +96,8 @@ class SidebarNavigation extends StatelessWidget {
             child: _NavigationItem(
               icon: Assets.images.settings.image(width: 25.w, height: 25.w),
               label: 'Settings',
-              isSelected: selectedIndex == 4,
-              onTap: () => onItemSelected(4),
+              isSelected: selectedIndex == 5,
+              onTap: () => onItemSelected(5),
             ),
           ),
           SizedBox(height: 10.h),
@@ -94,8 +105,8 @@ class SidebarNavigation extends StatelessWidget {
             child: _NavigationItem(
               icon: Assets.images.logout.image(width: 25.w, height: 25.w),
               label: 'Logout',
-              isSelected: selectedIndex == 5,
-              onTap: () => onItemSelected(5),
+              isSelected: selectedIndex == 6,
+              onTap: () => onItemSelected(6),
             ),
           ),
         ],
@@ -127,7 +138,7 @@ class _NavigationItem extends StatelessWidget {
       padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.sp),
         child: Container(
           decoration:
               isSelected
@@ -136,7 +147,7 @@ class _NavigationItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   )
                   : null,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
               ColorFiltered(
@@ -146,7 +157,7 @@ class _NavigationItem extends StatelessWidget {
                 ),
                 child: icon,
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Text(
                 label,
                 style: TextStyle(

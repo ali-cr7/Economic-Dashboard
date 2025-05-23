@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProertyAndContract extends StatelessWidget {
-  const ProertyAndContract({super.key});
-
+  const ProertyAndContract({super.key,
+  this.propertyType ='vila'});
+  final String propertyType;
   @override
   Widget build(BuildContext context) {
     final List<String> conractTypes = [
@@ -42,7 +43,7 @@ class ProertyAndContract extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0),
             child: PropertyTypeOption(
               groupValue: '',
-              label: 'Apartment',
+              label: propertyType,
               onChanged: (value) {},
             ),
           ),

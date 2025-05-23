@@ -5,14 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FinancialInformation extends StatelessWidget {
-  const FinancialInformation({super.key});
-
+  const FinancialInformation({
+    super.key,
+    this.expectedPrice = 350,
+    this.payWay = 'cash',
+  });
+  final String payWay;
+  final int expectedPrice;
   @override
   Widget build(BuildContext context) {
     final List<String> payWays = [
-      'regular',
-      'matte',
-      'glossy',
+      'cash',
+      'installment',
+     
     ]; // Consider moving to constants
 
     return Column(
@@ -34,7 +39,7 @@ class FinancialInformation extends StatelessWidget {
         Expanded(
           child: NumberPicker(
             label: 'Expected price:',
-            value: 350, //int.tryParse(state.price) ?? 350,
+            value: expectedPrice, //int.tryParse(state.price) ?? 350,
             onChanged: (p0) {},
             // (val) => context.read<SalePropertyBloc>().add(
             //   UpdatePriceEvent(price: val.toString()),
@@ -46,7 +51,7 @@ class FinancialInformation extends StatelessWidget {
           child: DropdownField(
             label: 'Pay Way:',
             items: payWays,
-            selectedValue: 'glossy',
+            selectedValue: payWay,
             onChanged: (p0) {},
             // (val) => context.read<SalePropertyBloc>().add(
             //   UpdatePayWayEvent(payWay: val),

@@ -1,6 +1,6 @@
 import 'package:economic_team_desktop/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileInfoRow extends StatelessWidget {
   final Widget icon;
@@ -17,24 +17,26 @@ class ProfileInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0.h),
       child: Row(
         children: [
-       icon,
-          const SizedBox(width: 24),
+          icon,
+          SizedBox(width: 24.w),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.black87,
-                fontSize: 15,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          GestureDetector(
-            onTap: onTap,
-            child:Assets.images.edit.image(),
+          Flexible(
+            child: GestureDetector(
+              onTap: onTap,
+              child: Assets.images.edit.image(),
+            ),
           ),
         ],
       ),
