@@ -3,6 +3,7 @@ import 'package:economic_team_desktop/buisness_logic/properties%20requests%20blo
 import 'package:economic_team_desktop/gen/assets.gen.dart';
 import 'package:economic_team_desktop/presentation/home/widgets/divider.dart';
 import 'package:economic_team_desktop/presentation/home/widgets/home_header.dart';
+import 'package:economic_team_desktop/presentation/requests/widgets/corner_tag_painter.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/request_item.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/request_shimmer.dart';
 import 'package:economic_team_desktop/utility/elevated_button_widget.dart';
@@ -12,8 +13,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RequestsView extends StatelessWidget {
-  const RequestsView({super.key});
+class RequestsHistory extends StatelessWidget {
+  const RequestsHistory({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +60,6 @@ class RequestsView extends StatelessWidget {
               );
             }
             if (requestsState is PropertyRequestsSuccess) {
-              // Filter only the items where accept_admin is "معلق"
-              final pendingRequests =
-                  requestsState.getRequestsFromLawyerResponse.data!
-                      .where((item) => item.acceptAdmin == "معلق")
-                      .toList();
-
               return Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(25.0.sp),
@@ -75,13 +70,46 @@ class RequestsView extends StatelessWidget {
                       );
                     },
                     child: ListView.builder(
-                      itemCount: pendingRequests.length,
+                      itemCount:
+                          requestsState
+                              .getRequestsFromLawyerResponse
+                              .data!
+                              .length!,
                       itemBuilder: (context, index) {
-                        final propertyItem = pendingRequests[index];
-                        return Padding(
-                          padding: EdgeInsets.only(top: 12.0.h, bottom: 12.0.w),
-                          child: RequestsItem(item: propertyItem),
-                        );
+                        final propertyItem =
+                            requestsState
+                                .getRequestsFromLawyerResponse
+                                .data![index];
+                        if (propertyItem.acceptAdmin == "مقبول") {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              top: 12.0.h,
+                              bottom: 12.0.w,
+                            ),
+                            child: Stack(
+                              children: [
+                                RequestsItem(item: propertyItem),
+                                Positioned(
+                                  top: 3.h,
+                                  right: 30.w,
+                                  child: Assets.images.save.image(
+                                    width: 40.w,
+                                    height: 40.h,
+                                  ),
+                                ),
+                                Positioned(
+                                  //  bottom: 9.h,
+                                  top: 12.h,
+                                  right: 30.w,
+                                  child: Assets.images.linkChain.image(
+                                    width: 25.w,
+                                    height: 25.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
                       },
                     ),
                   ),

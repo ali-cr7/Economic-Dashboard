@@ -76,6 +76,10 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/negotiation (2).png'); 
       AssetGenImage get saveIcon =>
       const AssetGenImage('assets/images/save_icon.png'); 
+        AssetGenImage get linkChain =>
+      const AssetGenImage('assets/images/link_chain.png'); 
+           AssetGenImage get save =>
+      const AssetGenImage('assets/images/save.png'); 
 
   /// List of all assets
   List<AssetGenImage> get values => [

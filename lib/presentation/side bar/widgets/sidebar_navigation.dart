@@ -1,7 +1,10 @@
+import 'package:economic_team_desktop/buisness_logic/properties%20requests%20bloc/property_requests_bloc.dart';
 import 'package:economic_team_desktop/gen/assets.gen.dart';
+import 'package:economic_team_desktop/presentation/side%20bar/widgets/navigation_item.dart';
 import 'package:economic_team_desktop/presentation/side%20bar/widgets/side_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SidebarNavigation extends StatelessWidget {
@@ -36,7 +39,7 @@ class SidebarNavigation extends StatelessWidget {
           SidebarHeader(),
           const SizedBox(height: 10),
           Expanded(
-            child: _NavigationItem(
+            child: NavigationItem(
               icon: Assets.images.home.image(width: 25.w, height: 25.w),
               label: 'Home',
               isSelected: selectedIndex == 0,
@@ -44,7 +47,7 @@ class SidebarNavigation extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: _NavigationItem(
+            child: NavigationItem(
               icon: Assets.images.profile.image(width: 25.w, height: 25.w),
               label: 'Profile',
               isSelected: selectedIndex == 1,
@@ -52,23 +55,47 @@ class SidebarNavigation extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: _NavigationItem(
-              icon: Assets.images.history.image(width: 25.w, height: 25.w),
-              label: 'History',
-              isSelected: selectedIndex == 2,
-              onTap: () => onItemSelected(2),
+            child: InkWell(
+              onTap: () {
+                context.read<PropertyRequestsBloc>().add(
+                  GetPropertiesRequestEvent(),
+                );
+              },
+              child: NavigationItem(
+                icon: Assets.images.history.image(width: 25.w, height: 25.w),
+                label: 'History',
+                isSelected: selectedIndex == 2,
+                onTap: () {
+                  context.read<PropertyRequestsBloc>().add(
+                    GetPropertiesRequestEvent(),
+                  );
+                  onItemSelected(2);
+                },
+              ),
             ),
           ),
           Expanded(
-            child: _NavigationItem(
-              icon: Assets.images.requests.image(width: 25.w, height: 25.w),
-              label: 'Requests',
-              isSelected: selectedIndex == 3,
-              onTap: () => onItemSelected(3),
+            child: InkWell(
+              onTap: () {
+                context.read<PropertyRequestsBloc>().add(
+                  GetPropertiesRequestEvent(),
+                );
+              },
+              child: NavigationItem(
+                icon: Assets.images.requests.image(width: 25.w, height: 25.w),
+                label: 'Requests',
+                isSelected: selectedIndex == 3,
+                onTap: () {
+                  context.read<PropertyRequestsBloc>().add(
+                    GetPropertiesRequestEvent(),
+                  );
+                  onItemSelected(3);
+                },
+              ),
             ),
           ),
           Expanded(
-            child: _NavigationItem(
+            child: NavigationItem(
               icon: Assets.images.negotiationIcon.image(
                 width: 25.w,
                 height: 25.w,
@@ -93,7 +120,7 @@ class SidebarNavigation extends StatelessWidget {
           ),
           SizedBox(height: 50.h),
           Expanded(
-            child: _NavigationItem(
+            child: NavigationItem(
               icon: Assets.images.settings.image(width: 25.w, height: 25.w),
               label: 'Settings',
               isSelected: selectedIndex == 5,
@@ -102,7 +129,7 @@ class SidebarNavigation extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           Expanded(
-            child: _NavigationItem(
+            child: NavigationItem(
               icon: Assets.images.logout.image(width: 25.w, height: 25.w),
               label: 'Logout',
               isSelected: selectedIndex == 6,
@@ -110,65 +137,6 @@ class SidebarNavigation extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _NavigationItem extends StatelessWidget {
-  final Widget icon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _NavigationItem({
-    Key? key,
-    required this.icon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final Color selectedTextColor = Colors.blue;
-    final Color unselectedTextColor = Colors.white;
-
-    return Padding(
-      padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16.sp),
-        child: Container(
-          decoration:
-              isSelected
-                  ? BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                  )
-                  : null,
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-          child: Row(
-            children: [
-              ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                  isSelected ? selectedTextColor : unselectedTextColor,
-                  BlendMode.srcIn,
-                ),
-                child: icon,
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                label,
-                style: TextStyle(
-                  color: isSelected ? selectedTextColor : unselectedTextColor,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  fontSize: 16.sp,
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

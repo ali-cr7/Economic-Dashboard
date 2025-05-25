@@ -6,6 +6,7 @@ import 'package:economic_team_desktop/presentation/home/home_view.dart';
 import 'package:economic_team_desktop/presentation/negotiation/negotaition_view.dart';
 import 'package:economic_team_desktop/presentation/profile/profile_view.dart';
 import 'package:economic_team_desktop/presentation/requests/reequest_view.dart';
+import 'package:economic_team_desktop/presentation/requests/requests_history.dart';
 import 'package:economic_team_desktop/presentation/side%20bar/widgets/side_header.dart';
 import 'package:economic_team_desktop/presentation/side%20bar/widgets/sidebar_navigation.dart';
 import 'package:economic_team_desktop/utility/service_locator.dart';
@@ -75,10 +76,19 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
       case 1:
         return const ProfileView();
       case 2:
-        return const HistoryContent(key: ValueKey('History'));
+        return BlocProvider(
+          create:
+              (context) =>
+                  PropertyRequestsBloc(getIt.get<RequsetsRepoImpl>())
+                    ..add(GetPropertiesRequestEvent()),
+          child: const RequestsHistory(),
+        );
       case 3:
         return BlocProvider(
-          create: (context) => PropertyRequestsBloc(getIt.get<RequsetsRepoImpl>())..add(GetPropertiesRequestEvent()),
+          create:
+              (context) =>
+                  PropertyRequestsBloc(getIt.get<RequsetsRepoImpl>())
+                    ..add(GetPropertiesRequestEvent()),
           child: const RequestsView(),
         );
       case 4:

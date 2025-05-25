@@ -120,7 +120,7 @@ class RequestsItem extends StatelessWidget {
                                   height: 18.h,
                                 ),
                                 Text(
-                                  'Legally Accepted',
+                                  'Legally Accepted ',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 10.sp,
@@ -128,18 +128,21 @@ class RequestsItem extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                Text(
-                                  '${item.createdAt} ',
-                                  style: TextStyle(
-                                    color: const Color(0xFF1E1E1E),
-                                    fontSize: 10.sp,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w600,
+                                Expanded(
+                                  child: Text(
+                                    '${item.createdAt} ',
+                                    style: TextStyle(
+                                      color: const Color(0xFF1E1E1E),
+                                      fontSize: 10.sp,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
+
                           if (item.acceptAdmin == 'مرفوض')
                             Container(
                               width: 120.w,
@@ -183,8 +186,7 @@ class RequestsItem extends StatelessWidget {
                             ),
                           if (status != null) ...[
                             if (status is NegotiationLoading &&
-                                statusText == 'Loading...' 
-                             )
+                                statusText == 'Loading...')
                               Container(
                                 width: 180.w,
                                 height: 34.h,
@@ -250,7 +252,7 @@ class RequestsItem extends StatelessWidget {
                                       height: 20.h,
                                     ),
                                     Text(
-                                      'negotiation Accepted',
+                                      'negotiation Accepted ',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 10.sp,
@@ -270,7 +272,7 @@ class RequestsItem extends StatelessWidget {
                                   ],
                                 ),
                               )
-                            else if (statusText =="Error")
+                            else if (statusText == "Error")
                               SizedBox.shrink(),
                           ],
                         ],

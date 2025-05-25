@@ -17,11 +17,18 @@ class APIConfig {
       'api/get_propertyBy_request_from_lawyer/';
   static const createRequest = 'api/create_request_from_expert';
   static const createNegotiationOffer = 'api/create_Agreed_Negotiation';
-
-
-
   static const updateRequest = 'api/update_request_from_expert/';
   static const updateNegotiationOffer = 'api/update_Agreed_Negotiation/';
   static const getAgreedNegotiationforProperty =
       'api/get_Agreed_Negotiation_for_property/';
+
+
+
+      
+  static const storeValueToIndicator = 'api/storeValueToIndicator';
+  static const updateValueOfIndicator = 'api/updateValueOfIndicator/';
+  static const deleteValueOfIndicator = 'api/deleteValueOfIndicator/';
+  static const storeIndicator = 'api/storeIndicator';
+  static const updateIndicator = 'api/updateIndicator/';
+  static const deleteIndicator = 'api/deleteIndicator/';
 }
