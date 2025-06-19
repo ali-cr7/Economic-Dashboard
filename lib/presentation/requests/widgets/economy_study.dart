@@ -1,8 +1,11 @@
 import 'package:economic_team_desktop/buisness_logic/create%20economic%20study%20bloc/create_economic_study_bloc.dart';
+import 'package:economic_team_desktop/data/models/request_details_response/data.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/drop_down_field.dart';
+import 'package:economic_team_desktop/presentation/requests/widgets/label_widget.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/number_picker.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/sales_estate_container.dart';
 import 'package:economic_team_desktop/presentation/requests/widgets/send_property_button.dart';
+import 'package:economic_team_desktop/presentation/requests/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,9 +27,13 @@ class EconomyStudySection extends StatefulWidget {
     required this.initialIncomingTime,
     required this.initialInvestmentMode,
     required this.initialPropertyManagement,
+    this.item,
+    this.agreedNegotiationStatus,
+    required this.requestId,
+    required this.byWhom,
   });
   final int requestFromLawyerId;
-  final int propertyForSaleId;
+  final String propertyForSaleId;
   final int agreedNegotiationId;
 
   final double initialBuyingPrice;
@@ -36,9 +43,14 @@ class EconomyStudySection extends StatefulWidget {
   final double initialProfitPercent;
   final int initialNumberOfChances;
   final String initialInvestmentTime;
+  final String byWhom;
   final String initialIncomingTime;
   final String initialInvestmentMode;
   final String initialPropertyManagement;
+  final RequestData? item;
+  final String? agreedNegotiationStatus;
+  // final int? agreedNegotiationId;
+  final String requestId;
 
   @override
   State<EconomyStudySection> createState() => _EconomyStudySectionState();
@@ -82,9 +94,9 @@ class _EconomyStudySectionState extends State<EconomyStudySection> {
     bloc.add(UpdateIncomingTimeEvent(incomingTime: widget.initialIncomingTime));
     bloc.add(
       UpdateNumberOfChancesEvent(
-        widget.requestFromLawyerId,
-        widget.propertyForSaleId,
-        widget.agreedNegotiationId,
+        agreedNegotiationId: widget.agreedNegotiationId,
+        propertyForSaleId: widget.propertyForSaleId,
+        requestFromLawyerId: widget.requestFromLawyerId,
         numberOfChances: widget.initialNumberOfChances,
       ),
     );
@@ -92,257 +104,282 @@ class _EconomyStudySectionState extends State<EconomyStudySection> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateEconomicStudyBloc, CreateEconomicStudyState>(
-      builder: (context, state) {
-        return SaleEstateContainer(
-          width: 1200.w,
-          height: 350.h,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: Column(
-              spacing: 30.h,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 20.w, bottom: 5.h),
-                  child: Text(
-                    "economy study:",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14.sp,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                Row(
-                  spacing: 20.w,
-                  children: [
-                    DropdownField(
-                      label: "negotiation mode:",
-                      items: ['negotiation', 'fixed'],
-                      selectedValue:
-                          state.agreedNegotiationId == 1
-                              ? 'negotiation'
-                              : 'fixed',
-                      onChanged: (value) {
-                        context.read<CreateEconomicStudyBloc>().add(
-                          UpdateAgreedNegotiationIdEvent(
-                            agreedNegotiationId: value == 'negotiation' ? 1 : 2,
-                          ),
-                        );
-                      },
-                    ),
-                    NumberPicker(
-                      label: "baying price:",
-                      value: state.buyingPrice.toInt(),
-                      onChanged: (value) {
-                        context.read<CreateEconomicStudyBloc>().add(
-                          UpdateBuyingPriceEvent(buyingPrice: value.toDouble()),
-                        );
-                      },
-                      suffix: '\$',
-                    ),
-                    NumberPicker(
-                      label: "number of chances:",
-                      value: state.numberOfChances,
-                      onChanged: (value) {
-                        context.read<CreateEconomicStudyBloc>().add(
-                          UpdateNumberOfChancesEvent(
-                            widget.requestFromLawyerId,
-                            widget.propertyForSaleId,
-                            widget.agreedNegotiationId,
-                            numberOfChances: value,
-                          ),
-                        );
-                        // context.read<CreateEconomicStudyBloc>().add(
-                        //   UpdateNumberOfChancesEvent(numberOfChances: ,
-                        //   )
-                        // )
-                      },
-                    ),
-                    NumberPicker(
-                      label: "expected price:",
-                      value: state.expectedPrice.toInt(),
-                      onChanged: (value) {
-                        context.read<CreateEconomicStudyBloc>().add(
-                          UpdateExpectedPriceEvent(
-                            expectedPrice: value.toDouble(),
-                          ),
-                        );
-                      },
-                      suffix: '\$',
-                    ),
-                  ],
-                ),
-                Row(
-                  spacing: 30.w,
-                  children: [
-                    NumberPicker(
-                      label: "total expected taxes:",
-                      value: state.totalExpectedTaxes.toInt(),
-                      onChanged: (value) {
-                        context.read<CreateEconomicStudyBloc>().add(
-                          UpdateTotalExpectedTaxesEvent(
-                            totalExpectedTaxes: value.toDouble(),
-                          ),
-                        );
-                      },
-                      suffix: '\$',
-                    ),
-                    NumberPicker(
-                      label: "chance price:",
-                      value: state.chancePrice.toInt(),
-                      onChanged: (value) {
-                        context.read<CreateEconomicStudyBloc>().add(
-                          UpdateChancePriceEvent(chancePrice: value.toDouble()),
-                        );
-                      },
-                      suffix: '\$',
-                    ),
-                    DropdownField(
-                      label: "investment mode:",
-                      items: ['Balanced', 'CapitalGrowth', 'HighIncoming'],
-                      selectedValue: state.investmentMode,
-                      onChanged: (value) {
-                        context.read<CreateEconomicStudyBloc>().add(
-                          UpdateInvestmentModeEvent(investmentMode: value),
-                        );
-                      },
-                    ),
-                    NumberPicker(
-                      label: "profit percent:",
-                      value: state.profitPercent.toInt(),
-                      onChanged: (value) {
-                        context.read<CreateEconomicStudyBloc>().add(
-                          UpdateProfitPercentEvent(
-                            profitPercent: value.toDouble(),
-                          ),
-                        );
-                      },
-                      suffix: '%',
-                    ),
-                  ],
-                ),
-                Row(
-                  spacing: 20.w,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LabelWidget(text: "Property Economic Study"),
+        BlocBuilder<CreateEconomicStudyBloc, CreateEconomicStudyState>(
+          builder: (context, state) {
+            return SaleEstateContainer(
+              width: 1200.w,
+              height: 370.h,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                child: Column(
+                  spacing: 30.h,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 20.w),
-                      child: Row(
-                        spacing: 10.w,
-                        children: [
-                          Text(
-                            "investment time:",
-                            style: TextStyle(
-                              color: Colors.black.withOpacity(0.8),
-                              fontSize: 14.sp,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 107.w,
-                            height: 26.63.h,
-                            child: OutlinedButton(
-                              onPressed:
-                                  () => _selectDate(
-                                    context,
-                                    DateTime.tryParse(state.investmentTime) ??
-                                        DateTime.now(),
-                                    true,
-                                  ),
-                              style: OutlinedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                              ),
-                              child: Text(
-                                //     _formatTime(state.investmentTime),
-                                state.investmentTime.isNotEmpty
-                                    ? DateFormat('yyyy-MM-dd').format(
-                                      DateTime.parse(state.investmentTime),
-                                    )
-                                    : 'Select date',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      padding: EdgeInsets.only(left: 20.w, bottom: 5.h),
+                      child: Text(
+                        "economy study:",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 20.w),
-                      child: Row(
-                        spacing: 10.w,
-                        children: [
-                          Text(
-                            "incoming time:",
-                            style: TextStyle(
-                              color: Colors.black.withOpacity(0.8),
-                              fontSize: 14.sp,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 107.w,
-                            height: 26.63.h,
-                            child: OutlinedButton(
-                              onPressed:
-                                  () => _selectDate(
-                                    context,
-                                    DateTime.tryParse(state.incomingTime) ??
-                                        DateTime.now(),
-                                    false,
-                                  ),
-                              style: OutlinedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
+                    Row(
+                      spacing: 20.w,
+                      children: [
+                        // DropdownField(
+                        //   label: "negotiation mode:",
+                        //   items: ['negotiation', 'fixed'],
+                        //   selectedValue:
+                        //       state.agreedNegotiationId == 1
+                        //           ? 'negotiation'
+                        //           : 'fixed',
+                        //   onChanged: (value) {
+                        //     context.read<CreateEconomicStudyBloc>().add(
+                        //       UpdateAgreedNegotiationIdEvent(
+                        //         agreedNegotiationId:
+                        //             value == 'negotiation' ? 1 : 2,
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
+                        NumberPicker(
+                          label: "baying price:",
+                          value: state.buyingPrice.toInt(),
+                          onChanged: (value) {
+                            context.read<CreateEconomicStudyBloc>().add(
+                              UpdateBuyingPriceEvent(
+                                buyingPrice: value.toDouble(),
                               ),
-                              child: Text(
-                                state.incomingTime.isNotEmpty
-                                    ? DateFormat(
-                                      'yyyy-MM-dd',
-                                    ).format(DateTime.parse(state.incomingTime))
-                                    : 'Select date',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.black,
-                                ),
+                            );
+                          },
+                          suffix: '\$',
+                        ),
+                        NumberPicker(
+                          label: "number of chances:",
+                          value: state.numberOfChances,
+                          onChanged: (value) {
+                            context.read<CreateEconomicStudyBloc>().add(
+                              UpdateNumberOfChancesEvent(
+                                agreedNegotiationId: widget.agreedNegotiationId,
+                                propertyForSaleId: widget.propertyForSaleId,
+                                requestFromLawyerId: widget.requestFromLawyerId,
+                                numberOfChances: value,
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
+                            );
+                            // context.read<CreateEconomicStudyBloc>().add(
+                            //   UpdateNumberOfChancesEvent(numberOfChances: ,
+                            //   )
+                            // )
+                          },
+                        ),
+                        NumberPicker(
+                          label: "expected price:",
+                          value: state.expectedPrice.toInt(),
+                          onChanged: (value) {
+                            context.read<CreateEconomicStudyBloc>().add(
+                              UpdateExpectedPriceEvent(
+                                expectedPrice: value.toDouble(),
+                              ),
+                            );
+                          },
+                          suffix: '\$',
+                        ),
+                      ],
                     ),
-                    DropdownField(
-                      label: "property management:",
-                      items: ['rent', 'selling'],
-                      selectedValue: state.propertyManagement,
-                      onChanged: (value) {
-                        context.read<CreateEconomicStudyBloc>().add(
-                          UpdatePropertyManagementEvent(
-                            propertyManagement: value,
+                    Row(
+                      spacing: 30.w,
+                      children: [
+                        NumberPicker(
+                          label: "total expected taxes:",
+                          value: state.totalExpectedTaxes.toInt(),
+                          onChanged: (value) {
+                            context.read<CreateEconomicStudyBloc>().add(
+                              UpdateTotalExpectedTaxesEvent(
+                                totalExpectedTaxes: value.toDouble(),
+                              ),
+                            );
+                          },
+                          suffix: '\$',
+                        ),
+                        NumberPicker(
+                          label: "chance price:",
+                          value: state.chancePrice.toInt(),
+                          onChanged: (value) {
+                            context.read<CreateEconomicStudyBloc>().add(
+                              UpdateChancePriceEvent(
+                                chancePrice: value.toDouble(),
+                              ),
+                            );
+                          },
+                          suffix: '\$',
+                        ),
+                        DropdownField(
+                          label: "investment mode:",
+                          items: ['Balanced', 'CapitalGrowth', 'HighIncoming'],
+                          selectedValue: state.investmentMode,
+                          onChanged: (value) {
+                            context.read<CreateEconomicStudyBloc>().add(
+                              UpdateInvestmentModeEvent(investmentMode: value),
+                            );
+                          },
+                        ),
+                        NumberPicker(
+                          label: "profit percent:",
+                          value: state.profitPercent.toInt(),
+                          onChanged: (value) {
+                            context.read<CreateEconomicStudyBloc>().add(
+                              UpdateProfitPercentEvent(
+                                profitPercent: value.toDouble(),
+                              ),
+                            );
+                          },
+                          suffix: '%',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      spacing: 20.w,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.w),
+                          child: Row(
+                            spacing: 10.w,
+                            children: [
+                              Text(
+                                "investment time:",
+                                style: TextStyle(
+                                  color: Colors.black.withOpacity(0.8),
+                                  fontSize: 14.sp,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 107.w,
+                                height: 26.63.h,
+                                child: OutlinedButton(
+                                  onPressed:
+                                      () => _selectDate(
+                                        context,
+                                        DateTime.tryParse(
+                                              state.investmentTime,
+                                            ) ??
+                                            DateTime.now(),
+                                        true,
+                                      ),
+                                  style: OutlinedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    //     _formatTime(state.investmentTime),
+                                    state.investmentTime.isNotEmpty
+                                        ? DateFormat('yyyy-MM-dd').format(
+                                          DateTime.parse(state.investmentTime),
+                                        )
+                                        : 'Select date',
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.w),
+                          child: Row(
+                            spacing: 10.w,
+                            children: [
+                              Text(
+                                "incoming time:",
+                                style: TextStyle(
+                                  color: Colors.black.withOpacity(0.8),
+                                  fontSize: 14.sp,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 107.w,
+                                height: 26.63.h,
+                                child: OutlinedButton(
+                                  onPressed:
+                                      () => _selectDate(
+                                        context,
+                                        DateTime.tryParse(state.incomingTime) ??
+                                            DateTime.now(),
+                                        false,
+                                      ),
+                                  style: OutlinedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    state.incomingTime.isNotEmpty
+                                        ? DateFormat('yyyy-MM-dd').format(
+                                          DateTime.parse(state.incomingTime),
+                                        )
+                                        : 'Select date',
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        DropdownField(
+                          label: "property management:",
+                          items: ['rent', 'selling'],
+                          selectedValue: state.propertyManagement,
+                          onChanged: (value) {
+                            context.read<CreateEconomicStudyBloc>().add(
+                              UpdatePropertyManagementEvent(
+                                propertyManagement: value,
+                              ),
+                            );
+                          },
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: EdgeInsets.only(right: 40.0.w),
+                          child: SubmitButton(
+                            byWhom: widget.byWhom,
+                            item: widget.item,
+                            agreedNegotiationStatus:
+                                widget.agreedNegotiationStatus,
+                            agreedNegotiationId: widget.agreedNegotiationId,
+                            requestId: widget.requestId,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        );
-      },
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 

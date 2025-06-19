@@ -10,13 +10,23 @@ sealed class CreateEconomicStudyEvent {
 class UpdateNumberOfChancesEvent extends CreateEconomicStudyEvent {
   final int numberOfChances;
   final int requestFromLawyerId;
-  final int propertyForSaleId;
+  final String propertyForSaleId;
   final int agreedNegotiationId;
 
-  const UpdateNumberOfChancesEvent(this.requestFromLawyerId, this.propertyForSaleId, this.agreedNegotiationId, {required this.numberOfChances});
+  const UpdateNumberOfChancesEvent({
+    required this.numberOfChances,
+    required this.requestFromLawyerId,
+    required this.propertyForSaleId,
+    required this.agreedNegotiationId,
+  });
 
   @override
-  List<Object?> get props => [numberOfChances,propertyForSaleId,requestFromLawyerId,agreedNegotiationId];
+  List<Object?> get props => [
+    numberOfChances,
+    propertyForSaleId,
+    requestFromLawyerId,
+    agreedNegotiationId,
+  ];
 }
 
 class UpdateExpectedPriceEvent extends CreateEconomicStudyEvent {
@@ -125,6 +135,15 @@ class UpdateAgreedNegotiationIdEvent extends CreateEconomicStudyEvent {
 
   @override
   List<Object?> get props => [agreedNegotiationId];
+}
+
+class UpdateNegotiationModeEvent extends CreateEconomicStudyEvent {
+  final String negotiationMode;
+
+  const UpdateNegotiationModeEvent({required this.negotiationMode});
+
+  @override
+  List<Object?> get props => [negotiationMode];
 }
 
 class UpdaterequestFromLawyerIdIdEvent extends CreateEconomicStudyEvent {

@@ -13,7 +13,7 @@ class CreateEconomicStudyBloc
     on<UpdateNumberOfChancesEvent>((event, emit) {
       emit(state.copyWith(numberOfChances: event.numberOfChances,
       agreedNegotiationId: event.agreedNegotiationId,
-      propertyForSaleId: event.propertyForSaleId , 
+      propertyForSaleId:int.tryParse(event.propertyForSaleId ) , 
       requestFromLawyerId: event.requestFromLawyerId
       ));
     });
@@ -61,7 +61,10 @@ class CreateEconomicStudyBloc
     on<UpdatePropertyForSaleIdEvent>((event, emit) {
       emit(state.copyWith(propertyForSaleId: event.propertyForSaleId));
     });
-
+      on<UpdateNegotiationModeEvent>((event, emit) {
+      emit(state.copyWith(negotiationMode: event.negotiationMode));
+    });
+//UpdateNegotiationModeEvent
     on<UpdateAgreedNegotiationIdEvent>((event, emit) {
       emit(state.copyWith(agreedNegotiationId: event.agreedNegotiationId));
     });

@@ -23,6 +23,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(UserLoginState(user: response));
         print('hiii');
         print(response.token);
+        
       } else {
         emit(UserErrorState(helperResponse: response));
       }

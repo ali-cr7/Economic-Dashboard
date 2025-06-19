@@ -1,11 +1,16 @@
+import 'package:economic_team_desktop/buisness_logic/chat%20users%20bloc/chat_users_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/properties%20requests%20bloc/property_requests_bloc.dart';
+import 'package:economic_team_desktop/constants.dart';
 import 'package:economic_team_desktop/gen/assets.gen.dart';
 import 'package:economic_team_desktop/presentation/side%20bar/widgets/navigation_item.dart';
 import 'package:economic_team_desktop/presentation/side%20bar/widgets/side_header.dart';
+import 'package:economic_team_desktop/utility/handle_cash.dart';
+import 'package:economic_team_desktop/utility/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class SidebarNavigation extends StatelessWidget {
   final int selectedIndex;
@@ -100,9 +105,15 @@ class SidebarNavigation extends StatelessWidget {
                 width: 25.w,
                 height: 25.w,
               ),
-              label: 'Negotiation',
+              label: 'Negotiations',
               isSelected: selectedIndex == 4,
-              onTap: () => onItemSelected(4),
+              onTap: () {
+                context.read<ChatUsersBloc>().add(
+                  GetChatUsersEvent(userId: userId!),
+                );
+                onItemSelected(4);
+              },
+              //  () =>
             ),
           ),
           SizedBox(height: 260.h),
@@ -133,7 +144,10 @@ class SidebarNavigation extends StatelessWidget {
               icon: Assets.images.logout.image(width: 25.w, height: 25.w),
               label: 'Logout',
               isSelected: selectedIndex == 6,
-              onTap: () => onItemSelected(6),
+              onTap: () {
+                removeCache();
+                GoRouter.of(context).push(AppRouter.kLogin);
+              },
             ),
           ),
         ],

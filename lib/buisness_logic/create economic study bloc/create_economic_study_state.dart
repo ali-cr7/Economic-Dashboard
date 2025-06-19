@@ -15,10 +15,12 @@ class CreateEconomicStudyState {
   final String incomingTime;
   final String investmentMode;
   final String propertyManagement;
+  final String negotiationMode;
   final int propertyForSaleId;
   final int agreedNegotiationId;
 
   const CreateEconomicStudyState({
+    this.negotiationMode = 'accept',
     this.requestFromLawyerId = 1,
     this.numberOfChances = 0,
     this.expectedPrice = 0.0,
@@ -41,6 +43,7 @@ class CreateEconomicStudyState {
       'number_of_chances': numberOfChances,
       'expected_price': expectedPrice,
       'profit_percent': profitPercent,
+      'negotiation_mode': negotiationMode,
       'total_expected_taxes': totalExpectedTaxes,
       'buying_price': buyingPrice,
       'renting_price': rentingPrice,
@@ -69,6 +72,7 @@ class CreateEconomicStudyState {
       chancePrice: (economic['chance_price'] ?? 0).toDouble(),
       investmentTime: economic['investment_time'] ?? '',
       incomingTime: economic['incoming_time'] ?? '',
+      negotiationMode: economic['negotiation_mode'] ?? '',
       investmentMode: economic['investment_mode'] ?? 'Balanced',
       propertyManagement: economic['property_management'] ?? 'rent',
       propertyForSaleId: economic['property_for_sale_id'] ?? 0,
@@ -90,6 +94,7 @@ class CreateEconomicStudyState {
     double? chancePrice,
     String? investmentTime,
     String? incomingTime,
+     String? negotiationMode,
     String? investmentMode,
     String? propertyManagement,
     int? propertyForSaleId,
@@ -103,6 +108,7 @@ class CreateEconomicStudyState {
       totalExpectedTaxes: totalExpectedTaxes ?? this.totalExpectedTaxes,
       buyingPrice: buyingPrice ?? this.buyingPrice,
       rentingPrice: rentingPrice ?? this.rentingPrice,
+      negotiationMode: negotiationMode ?? this.negotiationMode,
       chancePrice: chancePrice ?? this.chancePrice,
       investmentTime: investmentTime ?? this.investmentTime,
       incomingTime: incomingTime ?? this.incomingTime,
@@ -120,6 +126,7 @@ class CreateEconomicStudyState {
   @override
   String toString() {
     return 'CreateEconomicStudyState(requestFromLawyerId: $requestFromLawyerId, '
+    ' negotiation_mode: $negotiationMode'
         'numberOfChances: $numberOfChances, expectedPrice: $expectedPrice, '
         'profitPercent: $profitPercent, totalExpectedTaxes: $totalExpectedTaxes, '
         'buyingPrice: $buyingPrice, rentingPrice: $rentingPrice, chancePrice: $chancePrice, '
@@ -144,6 +151,7 @@ class CreateEconomicStudyState {
           investmentTime == other.investmentTime &&
           incomingTime == other.incomingTime &&
           investmentMode == other.investmentMode &&
+                    negotiationMode == other.negotiationMode &&
           propertyManagement == other.propertyManagement &&
           propertyForSaleId == other.propertyForSaleId &&
           agreedNegotiationId == other.agreedNegotiationId;
@@ -160,6 +168,7 @@ class CreateEconomicStudyState {
     chancePrice,
     investmentTime,
     incomingTime,
+    negotiationMode,
     investmentMode,
     propertyManagement,
     propertyForSaleId,

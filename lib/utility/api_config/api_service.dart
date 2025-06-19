@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:economic_team_desktop/enums.dart';
 
-
 class HelperResponse {
   Map<String, dynamic>? fullBody;
   String response;
@@ -15,6 +14,7 @@ class HelperResponse {
     required this.servicesResponse,
     required this.fullBody,
   });
+ 
 
   HelperResponse copyWith({
     Map<String, dynamic>? fullBody,
@@ -25,6 +25,10 @@ class HelperResponse {
     response: response ?? this.response,
     servicesResponse: servicesResponse ?? this.servicesResponse,
   );
+    bool isUnauthenticated() {
+    return fullBody != null &&
+        fullBody!['message'] == 'Unauthenticated.';
+  }
 }
 
 class ApiService {
@@ -53,6 +57,7 @@ class ApiService {
       print('iiiisss');
       print(data);
       print("Response data: ${response.data}"); // Debug log
+      print("Status code:   ${response.statusCode}");
 
       return HelperResponse(
         fullBody: response.data is Map ? response.data : {"raw": response.data},
@@ -67,6 +72,23 @@ class ApiService {
           fullBody: e.response?.data ?? {"message": "Unauthorized"},
           response: e.response?.data['message'] ?? 'Unauthorized',
           servicesResponse: ServicesResponseStatues.unauthorized,
+        );
+      }
+      if (e.response?.statusCode == 422) {
+        final fullBody =
+            e.response?.data ?? {"message": "Unprocessable Entity"};
+        final dynamic errors = fullBody['errors'];
+        final String readableError =
+            errors is String
+                ? errors
+                : errors is Map
+                ? errors.entries.map((e) => "${e.key}: ${e.value}").join('\n')
+                : errors?.toString() ?? 'Validation error';
+
+        return HelperResponse(
+          fullBody: fullBody,
+          response: readableError,
+          servicesResponse: ServicesResponseStatues.wrongData,
         );
       }
 
@@ -84,62 +106,67 @@ class ApiService {
       );
     }
   }
-Future<HelperResponse> get({
-  required String endpoint,
-  Map<String, dynamic>? query,
-  String? token,
-}) async {
-  // Set headers safely
-  _dio.options.headers = {
-    if (token != null) 'Authorization': 'Bearer $token',
-    "Connection": "Keep-Alive",
-    'Cache-Control': 'no-cache',
-    "Keep-Alive": "timeout=15, max=10",
-  };
 
-  try {
-    final response = await _dio.get(
-      endpoint,
-      queryParameters: query,
-    );
+  Future<HelperResponse> get({
+    required String endpoint,
+    Map<String, dynamic>? query,
+    String? token,
+  }) async {
+    _dio.options.headers = {
+      if (token != null) 'Authorization': 'Bearer $token',
+      "Connection": "Keep-Alive",
+      'Cache-Control': 'no-cache',
+      "Keep-Alive": "timeout=15, max=10",
+    };
 
-    return HelperResponse(
-      fullBody: response.data,
-      response: response.data.toString(),
-      servicesResponse: ServicesResponseStatues.success,
-    );
-  } on DioException catch (e) {
-    print("Dio error: ${e.response?.data}");
+    try {
+      final isFullUrl = endpoint.startsWith('http');
 
-    final errorData = e.response?.data;
+      final response = await _dio.get(
+        endpoint,
+        queryParameters: query,
+        options: isFullUrl ? Options() : null,
+      );
+      print(' print the full    ${response}');
+      return HelperResponse(
+        fullBody: response.data,
+        response: response.data.toString(),
+        servicesResponse: ServicesResponseStatues.success,
+      );
+    } on DioException catch (e) {
+      print("Dio error: ${e.response?.data}");
 
-    if (e.response?.statusCode == 401) {
+      final errorData = e.response?.data;
+
+      if (e.response?.statusCode == 401) {
+        return HelperResponse(
+          fullBody: errorData,
+          response: errorData?['message'] ?? 'Unauthorized',
+          servicesResponse: ServicesResponseStatues.unauthorized,
+        );
+      }
+
       return HelperResponse(
         fullBody: errorData,
-        response: errorData?['message'] ?? 'Unauthorized',
-        servicesResponse: ServicesResponseStatues.unauthorized,
+        response: errorData?['message'] ?? e.message ?? 'Something went wrong',
+        servicesResponse: ServicesResponseStatues.someThingWrong,
+      );
+    } on SocketException {
+      return HelperResponse(
+        fullBody: null,
+        response: 'No internet connection',
+        servicesResponse: ServicesResponseStatues.networkError,
+      );
+    } catch (e) {
+      return HelperResponse(
+        fullBody: null,
+        response: 'Unexpected error: ${e.toString()}',
+        servicesResponse: ServicesResponseStatues.someThingWrong,
       );
     }
-
-    return HelperResponse(
-      fullBody: errorData,
-      response: errorData?['message'] ?? e.message ?? 'Something went wrong',
-      servicesResponse: ServicesResponseStatues.someThingWrong,
-    );
-  } on SocketException {
-    return HelperResponse(
-      fullBody: null,
-      response: 'No internet connection',
-      servicesResponse: ServicesResponseStatues.networkError,
-    );
-  } catch (e) {
-    return HelperResponse(
-      fullBody: null,
-      response: 'Unexpected error: ${e.toString()}',
-      servicesResponse: ServicesResponseStatues.someThingWrong,
-    );
   }
-}
+
+
 
   Future<HelperResponse> postPropertyData({
     required String url,
@@ -301,6 +328,50 @@ Future<HelperResponse> get({
 
     try {
       var response = await _dio.put(endpoint, data: data);
+      return HelperResponse(
+        fullBody: data,
+        response: response.data.toString(),
+        servicesResponse: ServicesResponseStatues.success,
+      );
+    } on DioException catch (e) {
+      print("Dio error: ${e.response?.data}");
+
+      if (e.response?.statusCode == 401) {
+        return HelperResponse(
+          fullBody: data,
+          response: e.response?.data['message'] ?? 'Unauthorized',
+          servicesResponse: ServicesResponseStatues.unauthorized,
+        );
+      }
+
+      return HelperResponse(
+        fullBody: data,
+        response:
+            e.response?.data['message'] ?? e.message ?? 'Something went wrong',
+        servicesResponse: ServicesResponseStatues.someThingWrong,
+      );
+    } on SocketException catch (_) {
+      return HelperResponse(
+        fullBody: data,
+        response: 'No internet connection',
+        servicesResponse: ServicesResponseStatues.networkError,
+      );
+    }
+  }
+
+  Future<HelperResponse> patch({
+    required String endpoint,
+    Map<String, dynamic>? data,
+    String? token,
+  }) async {
+    _dio.options.headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    try {
+      var response = await _dio.patch(endpoint, data: data);
+      print('print the flull patch response${response.data}');
       return HelperResponse(
         fullBody: data,
         response: response.data.toString(),

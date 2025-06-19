@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ExpertMessage extends StatelessWidget {
+  final String text;
+  
   const ExpertMessage({
     super.key,
+    required this.text,
   });
 
   @override
@@ -31,7 +34,7 @@ class ExpertMessage extends StatelessWidget {
         ),
       ),
       child: Text(
-        "Hello, I'm Ali from Expert Team. How can I help you",
+        text,
         style: TextStyle(
           color: Colors.white,
           fontSize: 13.sp,

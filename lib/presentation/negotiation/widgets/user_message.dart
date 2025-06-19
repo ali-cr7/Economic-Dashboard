@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserMessage extends StatelessWidget {
+  final String text;
+  
   const UserMessage({
     super.key,
+    required this.text,
   });
 
   @override
@@ -29,7 +32,7 @@ class UserMessage extends StatelessWidget {
         ),
       ),
       child: Text(
-        "Hello Ali ..., I would Like to negotiate about yours offer..",
+        text,
         style: TextStyle(
           color: Colors.black,
           fontSize: 13.sp,
@@ -39,3 +42,4 @@ class UserMessage extends StatelessWidget {
     );
   }
 }
+

@@ -17,3 +17,11 @@ class SendEconomicStudyStatus extends SendEconomicStudyState {
   @override
   List<Object> get props => [helperResponse.servicesResponse,helperResponse.response];
 }
+class SendEconomicFailure extends SendEconomicStudyState {
+  SendEconomicFailure({required this.errMessage});
+
+  final HelperResponse errMessage;
+
+  @override
+  List<Object> get props => [errMessage];
+}

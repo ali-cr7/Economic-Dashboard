@@ -3,10 +3,12 @@ import 'package:economic_team_desktop/gen/assets.gen.dart';
 import 'package:economic_team_desktop/presentation/home/widgets/divider.dart';
 import 'package:economic_team_desktop/presentation/home/widgets/home_header.dart';
 import 'package:economic_team_desktop/presentation/profile/widgets/profile_row_info.dart';
+import 'package:economic_team_desktop/utility/api_config/api_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -27,7 +29,7 @@ class ProfileView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(14.0.sp),
           child: Container(
-            width: 550.w,
+            width: 550.w, 
             height: 440.h,
             decoration: ShapeDecoration(
               color: const Color(0x7FE8E8E8),
@@ -55,9 +57,28 @@ class ProfileView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        child: Assets.images.profilePhoto.image(
-                          fit: BoxFit.fill,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(60)),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                (personalPhoto != null &&
+                                        personalPhoto!.isNotEmpty)
+                                    ? APIConfig.baseUrl + personalPhoto!
+                                    : defaultImage,
+                            fit: BoxFit.contain,
+                            placeholder:
+                                (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                            errorWidget:
+                                (context, url, error) =>
+                                    const Icon(Icons.error),
+                          ),
                         ),
+
+                        //  Assets.images.profilePhoto.image(
+                        //   fit: BoxFit.fill,
+                        // ),
                       ),
                     ),
                     Column(

@@ -45,12 +45,15 @@ class NavigationItem extends StatelessWidget {
                 child: icon,
               ),
               SizedBox(width: 12.w),
-              Text(
-                label,
-                style: TextStyle(
-                  color: isSelected ? selectedTextColor : unselectedTextColor,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  fontSize: 16.sp,
+              Expanded(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    color: isSelected ? selectedTextColor : unselectedTextColor,
+                    fontWeight:
+                        isSelected ? FontWeight.bold : FontWeight.normal,
+                    fontSize: 15.sp,
+                  ),
                 ),
               ),
             ],

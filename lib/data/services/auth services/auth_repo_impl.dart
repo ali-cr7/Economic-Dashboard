@@ -13,7 +13,7 @@ import 'package:economic_team_desktop/utility/handle_cash.dart';
 //import 'package:firebase_core/firebase_core.dart';
 
 import 'package:hive/hive.dart';
- //import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 
 class AuthRepoImpl implements AuthRepo {
@@ -57,13 +57,14 @@ class AuthRepoImpl implements AuthRepo {
         print('📨 Message from backend: ${logInResponse.message}');
 
         await setCache(logInResponse);
+        addFireBaseUser(userId!, event.email, name!);
         //  await storeFcmToken(fcm);
-       
+
         // if (logInResponse.firebaseToken == null) {
         //   print('❌ Firebase token is null!');
         // } else {
         //   try {
-          
+
         //     final userCredential = await FirebaseAuth.instance
         //         .signInWithCustomToken(logInResponse.firebaseToken!);
         //     //   print(userCredential.user!.uid);
@@ -164,7 +165,7 @@ class AuthRepoImpl implements AuthRepo {
     if (helperResponse.servicesResponse == ServicesResponseStatues.success) {
       try {
         final responseBody = helperResponse.fullBody;
-        return responseBody?['message'];
+        return responseBody;
       } catch (e) {
         return helperResponse.copyWith(
           servicesResponse: ServicesResponseStatues.modelError,
@@ -184,6 +185,26 @@ class AuthRepoImpl implements AuthRepo {
     );
     print('here is the response of saving the fcm:${helperResponse.fullBody}');
     if (helperResponse.servicesResponse == ServicesResponseStatues.success) {
+      try {
+        final responseBody = helperResponse.fullBody;
+        return responseBody?['message'];
+      } catch (e) {
+        return helperResponse.copyWith(
+          servicesResponse: ServicesResponseStatues.modelError,
+        );
+      }
+    }
+  }
+
+  @override
+  Future addFireBaseUser(String id, String email, String name) async {
+    HelperResponse helperResponse = await _apiService.post(
+      endpoint: APIConfig.getChatEndpoint('users'),
+      data: {"id": id, "email": email, "name": name},
+    );
+    if (helperResponse.servicesResponse == ServicesResponseStatues.success) {
+      print("adding correctly in firebase");
+      print(helperResponse.fullBody);
       try {
         final responseBody = helperResponse.fullBody;
         return responseBody?['message'];

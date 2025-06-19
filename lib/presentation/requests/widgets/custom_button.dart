@@ -1,18 +1,20 @@
 import 'package:economic_team_desktop/utility/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomSendButton extends StatelessWidget {
   const CustomSendButton({
     super.key,
     required this.onTap,
     required this.buttonName,
-    this.isEnabled = true,
+    this.isEnabled = true, this.width, this.height,
   });
 
   final VoidCallback onTap;
   final String buttonName;
   final bool isEnabled;
-
+  final double? width;
+  final double? height;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -20,8 +22,8 @@ class CustomSendButton extends StatelessWidget {
       child: Opacity(
         opacity: isEnabled ? 1.0 : 0.5,
         child: Container(
-          width: 350,
-          height: 44,
+          width:width?? 350.w,
+          height:height?? 44.h,
           decoration: ShapeDecoration(
             gradient: AppColors.backgroundGradient.withOpacity(0.65),
             shape: RoundedRectangleBorder(

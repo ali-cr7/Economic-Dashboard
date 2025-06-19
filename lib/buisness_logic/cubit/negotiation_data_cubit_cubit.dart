@@ -15,39 +15,43 @@ class NegotiationDataCubitCubit extends Cubit<NegotiationDataCubitState> {
   NegotiationDataCubitCubit(this.requsetsRepoImpl)
     : super(NegotiationDataCubitLoaded({}));
 
-  Future<void> getNegotiationOffer(int id) async {
-    // Check if we already have a successful response for this ID
-    if (_negotiationMap[id] is NegotiationSuccess) {
-      return;
+  Future<void> getNegotiationOffer(int id, {bool forceRefresh = false}) async {
+  // Skip if already loaded and not forcing
+  if (!forceRefresh && _negotiationMap[id] is NegotiationSuccess) {
+    return;
+  }
+
+  _negotiationMap[id] = NegotiationLoading();
+  emit(NegotiationDataCubitLoaded(Map.from(_negotiationMap)));
+
+  try {
+    final response = await requsetsRepoImpl.getNegottionOffer(id);
+    if (response is GerAgreedNegotiatonResponse) {
+      _negotiationMap[id] = NegotiationSuccess(response);
+    } else {
+      _negotiationMap[id] = NegotiationNotFound();
     }
-
-    // Set loading state for this specific ID
-    _negotiationMap[id] = NegotiationLoading();
-    emit(NegotiationDataCubitLoaded(Map.from(_negotiationMap)));
-
-    try {
-      final response = await requsetsRepoImpl.getNegottionOffer(id);
-      if (response is GerAgreedNegotiatonResponse) {
-        _negotiationMap[id] = NegotiationSuccess(response);
-        emit(NegotiationDataCubitLoaded(Map.from(_negotiationMap)));
-      } else if(response) {
-        _negotiationMap[id] = NegotiationNotFound();
-      }
-    } catch (e) {
-      if (e is DioException && e.response?.statusCode == 404) {
-        _negotiationMap[id] = NegotiationNotFound();
-      } else {
-        _negotiationMap[id] = NegotiationFailure(
-          HelperResponse(
-            response: e.toString(),
-            servicesResponse: ServicesResponseStatues.someThingWrong,
-            fullBody: null,
-          ),
-        );
-      }
-      emit(NegotiationDataCubitLoaded(Map.from(_negotiationMap)));
+  } catch (e) {
+    if (e is DioException && e.response?.statusCode == 404) {
+      _negotiationMap[id] = NegotiationNotFound();
+    } else {
+      _negotiationMap[id] = NegotiationFailure(
+        HelperResponse(
+          response: e.toString(),
+          servicesResponse: ServicesResponseStatues.someThingWrong,
+          fullBody: null,
+        ),
+      );
     }
   }
+
+  emit(NegotiationDataCubitLoaded(Map.from(_negotiationMap)));
+}
+void refreshAllNegotiations(List<int> propertyIds) {
+  for (final id in propertyIds) {
+    getNegotiationOffer(id, forceRefresh: true);
+  }
+}
 
   // Helper method to get current status for an ID
   NegotiationDataStatus? getStatusForId(int id) {

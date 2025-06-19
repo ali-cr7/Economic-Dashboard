@@ -4,6 +4,7 @@ import 'package:economic_team_desktop/data/services/requests%20srevices/requsets
 import 'package:economic_team_desktop/gen/assets.gen.dart';
 import 'package:economic_team_desktop/presentation/home/home_view.dart';
 import 'package:economic_team_desktop/presentation/negotiation/negotaition_view.dart';
+import 'package:economic_team_desktop/presentation/negotiation/negotiation_users_list.dart';
 import 'package:economic_team_desktop/presentation/profile/profile_view.dart';
 import 'package:economic_team_desktop/presentation/requests/reequest_view.dart';
 import 'package:economic_team_desktop/presentation/requests/requests_history.dart';
@@ -26,7 +27,7 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
       SharedAxisTransitionType.vertical;
   int _selectedIndex = 0;
   bool _isReverse = false;
-
+  final ValueNotifier<String?> _selectedUserName = ValueNotifier(null);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -92,7 +93,30 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
           child: const RequestsView(),
         );
       case 4:
-        return const NegotaitionView();
+        return ValueListenableBuilder<String?>(
+          valueListenable: _selectedUserName,
+          builder: (context, userName, _) {
+            if (userName != null) {
+              return NegotaitionView(
+                key: const ValueKey('NegotiationView'),
+                otherUSerId: userName,
+                onBack: () {
+                  print("ffffff");
+                  _selectedUserName.value = null;
+                },
+              );
+            } else {
+              print("gooooooooooback");
+              return NegotiationUsersList(
+                key: const ValueKey('UsersList'),
+                onUserSelected: (name) {
+                  _selectedUserName.value = name;
+                },
+              );
+            }
+          },
+        );
+
       case 5:
         return const SettingsContent(key: ValueKey('Settings'));
       case 6:
@@ -128,49 +152,6 @@ class ProfileContent extends StatelessWidget {
   }
 }
 
-class HistoryContent extends StatelessWidget {
-  const HistoryContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(20.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Import in \$50 on 1-5-SGS',
-            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
-          ),
-          SizedBox(height: 10.h),
-          Text(
-            'Import on a\$50 on 1-5-SGS',
-            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class TransactionsContent extends StatelessWidget {
-  const TransactionsContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Transactions Content'));
-  }
-}
-
-class NegotiationView extends StatelessWidget {
-  const NegotiationView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Transactions Content'));
-  }
-}
-
 class SettingsContent extends StatelessWidget {
   const SettingsContent({Key? key}) : super(key: key);
 
@@ -186,14 +167,5 @@ class LogoutContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(child: Text('Logout Content'));
-  }
-}
-
-class HomeContent extends StatelessWidget {
-  const HomeContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Home Content'));
   }
 }

@@ -23,6 +23,7 @@ else()
       "Debug" "Profile" "Release")
   endif()
 endif()
+
 # Define settings for the Profile build mode.
 set(CMAKE_EXE_LINKER_FLAGS_PROFILE "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
 set(CMAKE_SHARED_LINKER_FLAGS_PROFILE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}")
@@ -31,6 +32,11 @@ set(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS_RELEASE}")
 
 # Use Unicode for all projects.
 add_definitions(-DUNICODE -D_UNICODE)
+
+# Set C++ standard and runtime library globally
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 # Compilation settings that should be applied to most targets.
 #
@@ -43,6 +49,14 @@ function(APPLY_STANDARD_SETTINGS TARGET)
   target_compile_options(${TARGET} PRIVATE /EHsc)
   target_compile_definitions(${TARGET} PRIVATE "_HAS_EXCEPTIONS=0")
   target_compile_definitions(${TARGET} PRIVATE "$<$<CONFIG:Debug>:_DEBUG>")
+  
+  # Add Firebase-specific compiler definitions
+  target_compile_definitions(${TARGET} PRIVATE "WIN32_LEAN_AND_MEAN")
+  target_compile_definitions(${TARGET} PRIVATE "NOMINMAX")
+  target_compile_definitions(${TARGET} PRIVATE "WIN32")
+  target_compile_definitions(${TARGET} PRIVATE "_WINDOWS")
+  target_compile_definitions(${TARGET} PRIVATE "UNICODE")
+  target_compile_definitions(${TARGET} PRIVATE "_UNICODE")
 endfunction()
 
 # Flutter library and tool build rules.
@@ -52,11 +66,9 @@ add_subdirectory(${FLUTTER_MANAGED_DIR})
 # Application build; see runner/CMakeLists.txt.
 add_subdirectory("runner")
 
-
 # Generated plugin build rules, which manage building the plugins and adding
 # them to the application.
 include(flutter/generated_plugins.cmake)
-
 
 # === Installation ===
 # Support files are copied into place next to the executable, so that it can

@@ -4,7 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CurrencyItem extends StatelessWidget {
   const CurrencyItem({
     super.key,
+    required this.currencyName,
+    required this.currencyValue,
   });
+
+  final String currencyName;
+  final String currencyValue;
 
   @override
   Widget build(BuildContext context) {
@@ -12,38 +17,38 @@ class CurrencyItem extends StatelessWidget {
       width: 220.w,
       height: 50.h,
       decoration: ShapeDecoration(
-        color: Colors.white.withValues(alpha: 40),
+        color: Colors.white.withOpacity(0.15),
         shape: RoundedRectangleBorder(
-          side: BorderSide(
-            width: 2,
-            color: const Color(0xFF836BFD),
-          ),
+          side: BorderSide(width: 2, color: const Color(0xFF836BFD)),
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Syrian Pound: ',
-            style: TextStyle(
-              color: Colors.black.withValues(alpha: 10),
-              fontSize: 16.sp,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w400,
+      child: Center(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(width: 6),
+            Text(
+              '$currencyName: ',
+              style: TextStyle(
+                color: Colors.black.withOpacity(0.8),
+                fontSize: 16.sp,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w400,
+              ),
             ),
-          ),
-          Text(
-            '12943.47',
-            style: TextStyle(
-              color: const Color(0xFF27B055),
-              fontSize: 16.sp,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w600,
+            Text(
+              currencyValue,
+              style: TextStyle(
+                color: const Color(0xFF27B055),
+                fontSize: 16.sp,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

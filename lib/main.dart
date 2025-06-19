@@ -1,12 +1,20 @@
+import 'package:economic_team_desktop/buisness_logic/chat%20users%20bloc/chat_users_bloc.dart';
+import 'package:economic_team_desktop/buisness_logic/create%20property%20indicators%20bloc/create_property_indicators_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/cubit/negotiation_data_cubit_cubit.dart';
+import 'package:economic_team_desktop/buisness_logic/currency%20bloc/currency_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/negotion%20offer%20bloc/negotiation_offer_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/create%20economic%20study%20bloc/create_economic_study_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/properties%20requests%20bloc/property_requests_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/property%20request%20details%20bloc/property_request_details_bloc.dart';
+import 'package:economic_team_desktop/buisness_logic/requests%20statistcs%20bloc/requstes_statistics_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/send%20economic%20study%20bloc/send_economic_study_bloc.dart';
+import 'package:economic_team_desktop/buisness_logic/send%20property%20indicators%20bloc/send_property_indicators_bloc.dart';
+import 'package:economic_team_desktop/buisness_logic/statistics%20chart%20bloc/staitstics_chart_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/user%20bloc/user_bloc.dart';
 import 'package:economic_team_desktop/data/services/auth%20services/auth_repo_impl.dart';
+import 'package:economic_team_desktop/data/services/chat%20services/chat_services.dart';
 import 'package:economic_team_desktop/data/services/requests%20srevices/requsets_repo_impl.dart';
+import 'package:economic_team_desktop/data/services/statistics%20services/statistics_repo_impl.dart';
 import 'package:economic_team_desktop/firebase_options.dart';
 import 'package:economic_team_desktop/utility/app_bloc_observer.dart';
 import 'package:economic_team_desktop/utility/app_colors.dart';
@@ -64,23 +72,51 @@ class SalvestDesktop extends StatelessWidget {
                     PropertyRequestDetailsBloc(getIt.get<RequsetsRepoImpl>()),
           ),
           BlocProvider(create: (context) => CreateEconomicStudyBloc()),
-            BlocProvider(
+          BlocProvider(
             create:
                 (context) =>
                     SendEconomicStudyBloc(getIt.get<RequsetsRepoImpl>()),
           ),
-             BlocProvider(
+          BlocProvider(
             create:
                 (context) =>
                     NegotiationOfferBloc(getIt.get<RequsetsRepoImpl>()),
           ),
-             BlocProvider(
+          BlocProvider(
             create:
                 (context) =>
                     NegotiationDataCubitCubit(getIt.get<RequsetsRepoImpl>()),
           ),
-        //  NegotiationDataCubit
-          // CreateEconomicStudyBloc
+          BlocProvider(
+            create: (context) => CurrencyBloc(getIt.get<StatisticsRepoImpl>()),
+          ),
+          BlocProvider(
+            create:
+                (context) => RequstesStatisticsBloc(
+                  getIt.get<StatisticsRepoImpl>(),
+                )..add(GetRequstesStatisticsEvent(year: DateTime.now().year)),
+          ),
+     BlocProvider(
+            create:
+                (context) => StaitsticsChartBloc(
+                  getIt.get<StatisticsRepoImpl>(),
+                )..add(GetStaitsticsChartEvent(year: DateTime.now().year)),
+          ),
+
+          
+          BlocProvider(
+            create:
+                (context) =>
+                    SendPropertyIndicatorsBloc(getIt.get<RequsetsRepoImpl>()),
+          ),
+            BlocProvider(
+            create:
+                (context) =>
+                    ChatUsersBloc(getIt.get<ChatService>()),
+          ),
+          BlocProvider(create: (context) => CreatePropertyIndicatorsBloc()),
+          //  CurrencyBloc
+          // CreatePropertyIndicatorsBloc
         ],
         child: MaterialApp.router(
           builder: EasyLoading.init(),

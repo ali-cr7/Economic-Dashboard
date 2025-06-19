@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:economic_team_desktop/data/services/auth%20services/auth_repo_impl.dart';
+import 'package:economic_team_desktop/data/services/chat%20services/chat_services.dart';
 import 'package:economic_team_desktop/data/services/requests%20srevices/requsets_repo_impl.dart';
+import 'package:economic_team_desktop/data/services/statistics%20services/statistics_repo_impl.dart';
 import 'package:economic_team_desktop/utility/api_config/api_config.dart';
 import 'package:economic_team_desktop/utility/api_config/api_service.dart';
 import 'package:get_it/get_it.dart';
-
 
 final GetIt getIt = GetIt.instance;
 void setupServiceLocator() {
@@ -22,15 +23,12 @@ void setupServiceLocator() {
       ),
     ),
   );
-  getIt.registerSingleton<AuthRepoImpl>(
-    AuthRepoImpl(
-      getIt.get<ApiService>(),
-    ),
+  getIt.registerSingleton<AuthRepoImpl>(AuthRepoImpl(getIt.get<ApiService>()));
+  getIt.registerSingleton<RequsetsRepoImpl>(
+    RequsetsRepoImpl(getIt.get<ApiService>()),
   );
- getIt.registerSingleton<RequsetsRepoImpl>(
-    RequsetsRepoImpl(
-      getIt.get<ApiService>(),
-    ),
+  getIt.registerSingleton<StatisticsRepoImpl>(
+    StatisticsRepoImpl(getIt.get<ApiService>()),
   );
-
+  getIt.registerSingleton<ChatService>(ChatService(getIt.get<ApiService>()));
 }
