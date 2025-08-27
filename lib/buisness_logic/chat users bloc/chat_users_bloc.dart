@@ -13,7 +13,7 @@ class ChatUsersBloc extends Bloc<ChatUsersEvent, ChatUsersState> {
     on<GetChatUsersEvent>((event, emit) async {
       emit(ChatUsersLoading());
       final response = await chatService.getUserChats(event);
-
+      print("the users chat response $response");
       if (response is ChatUsers) {
         emit(ChatUsersSuccess(chatUsers: response));
       } else {

@@ -35,7 +35,9 @@ class RequestDetailsView extends StatelessWidget {
     required this.acceptAdmin,
     required this.requestId,
     required this.agreedNegotiationText,
-    required this.agreedNegotiationId, required this.byWhom, required this.propertyForSaleId,
+    required this.agreedNegotiationId,
+    required this.byWhom,
+    required this.propertyForSaleId,
   });
   final String? agreedNegotiationStatus;
   final String? agreedNegotiationText;
@@ -43,7 +45,7 @@ class RequestDetailsView extends StatelessWidget {
   final String acceptAdmin;
   final String requestId;
   final String byWhom;
-   final String propertyForSaleId;
+  final String propertyForSaleId;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -197,8 +199,8 @@ class RequestDetailsView extends StatelessWidget {
                                   agreedNegotiationStatus !=
                                       'تم الرفض من قبل المستخدد') ...[
                                 EconomyStudyPart(
-                                  propertyForSaleId:propertyForSaleId ,
-                                  byWhom:byWhom ,
+                                  propertyForSaleId: propertyForSaleId,
+                                  byWhom: byWhom,
                                   item: item,
                                   agreedNegotiationStatus:
                                       agreedNegotiationStatus,
@@ -209,7 +211,7 @@ class RequestDetailsView extends StatelessWidget {
                                   agreedNegotiationStatus ==
                                       "تم قبول الطلب من قبل المستخدم") ...[
                                 EconomyStudyPart(
-                                  propertyForSaleId: propertyForSaleId ,
+                                  propertyForSaleId: propertyForSaleId,
                                   byWhom: byWhom,
                                   item: item,
                                   agreedNegotiationStatus:
@@ -226,11 +228,14 @@ class RequestDetailsView extends StatelessWidget {
 
                               SizedBox(height: 16.h),
 
-                              if (state
-                                      .requestDetailsResponse
-                                      .hasEconomicData ==
-                                  true)
-                                PropertyIndicators(item: item!),
+                              // if (state
+                              //         .requestDetailsResponse
+                              //         .hasEconomicData ==
+                              //     true)
+                              PropertyIndicators(
+                                item: item!,
+                                propertyId: propertyForSaleId,
+                              ),
 
                               SizedBox(height: 16.h),
                             ],

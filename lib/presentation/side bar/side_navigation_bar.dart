@@ -14,6 +14,8 @@ import 'package:economic_team_desktop/utility/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:economic_team_desktop/buisness_logic/posted%20properties%20bloc/posted_properties_bloc.dart';
+import 'package:economic_team_desktop/presentation/posted_properties/posted_properties_view.dart';
 
 class SideNavigationBar extends StatefulWidget {
   const SideNavigationBar({Key? key}) : super(key: key);
@@ -93,6 +95,13 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
           child: const RequestsView(),
         );
       case 4:
+        return BlocProvider(
+          create: (context) =>
+              PostedPropertiesBloc(getIt.get<RequsetsRepoImpl>())
+                ..add(GetPostedPropertiesEvent(refresh: true)),
+          child: const PostedPropertiesView(),
+        );
+      case 5:
         return ValueListenableBuilder<String?>(
           valueListenable: _selectedUserName,
           builder: (context, userName, _) {
@@ -117,9 +126,9 @@ class _SideNavigationBarState extends State<SideNavigationBar> {
           },
         );
 
-      case 5:
-        return const SettingsContent(key: ValueKey('Settings'));
       case 6:
+        return const SettingsContent(key: ValueKey('Settings'));
+      case 7:
         return const LogoutContent(key: ValueKey('Logout'));
       default:
         return Container(key: const ValueKey('Empty'));

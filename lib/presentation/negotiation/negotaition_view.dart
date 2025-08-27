@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class NegotaitionView extends StatefulWidget {
   const NegotaitionView({
     super.key,
@@ -32,6 +33,7 @@ class NegotaitionView extends StatefulWidget {
   @override
   State<NegotaitionView> createState() => _NegotiationViewState();
 }
+
 class _NegotiationViewState extends State<NegotaitionView> {
   bool _noInternet = false;
   final chatService = getIt.get<ChatService>();
@@ -308,7 +310,7 @@ class _NegotiationViewState extends State<NegotaitionView> {
                       ],
                     ),
                   ),
-                  CustomerInfoSection(),
+                  CustomerInfoSection(userId: widget.otherUSerId),
                 ],
               ),
             ),
@@ -317,6 +319,7 @@ class _NegotiationViewState extends State<NegotaitionView> {
       ),
     );
   }
+
   @override
   void dispose() {
     if (_currentChatRoomId != null) {

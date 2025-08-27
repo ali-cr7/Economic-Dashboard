@@ -26,16 +26,16 @@ class PropertyUserInformation extends StatelessWidget {
           child: PropertyDescriptionWidget(
             balconySize:
                 int.tryParse(
-                  item!.balconySize!.split('.')[0],
-                )!,
-            decoration: item!.decoration!,
-            flooringType: item!.flooringType!,
-            kitchenType: item!.kitchenType!,
-            numberOfBathrooms: item!.numberOfBathrooms!,
-            numberOfRooms: item!.numberOfRooms!,
-            overlookFrom: item!.overlookFrom!,
-            paintingType: item!.paintingType!,
-            propertyAge: item!.propertyAge!,
+                  item!.balconySize!.split('.')[0] ,
+                ) ?? 0,
+            decoration: item!.decoration ?? " ",
+            flooringType: item!.flooringType ?? " ",
+            kitchenType: item!.kitchenType ?? " ",
+            numberOfBathrooms: item!.numberOfBathrooms ?? 0,
+            numberOfRooms: item!.numberOfRooms ?? 0,
+            overlookFrom: item!.overlookFrom ?? 0,
+            paintingType: item!.paintingType ?? " ",
+            propertyAge: item!.propertyAge ?? 0,
             space:
                 int.tryParse(item!.area!.split('.')[0])!,
           ),

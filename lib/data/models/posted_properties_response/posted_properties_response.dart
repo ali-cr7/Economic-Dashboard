@@ -1,0 +1,46 @@
+import 'dart:convert';
+
+import 'data.dart';
+
+class PostedPropertiesResponse {
+	String? message;
+	Data? data;
+
+	PostedPropertiesResponse({this.message, this.data});
+
+	factory PostedPropertiesResponse.from(Map<String, dynamic> data) {
+		return PostedPropertiesResponse(
+			message: data['message'] as String?,
+			data: data['data'] == null
+					? null
+					: Data.fromMessageDataPropertiesPropertyId1PropertyTitleLandPropertyLocationDamascusCountrysideTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId2PropertyTitleAppartmentPropertyLocationDamascusTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId3PropertyTitleVillaPropertyLocationLatakiaTotalChances11IsCompleted0TotalInvested35100000ChancePrice900000ProgressPercent10000PropertyId4PropertyTitleAppartmentPropertyLocationHalabTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId5PropertyTitleLandPropertyLocationTartousTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId6PropertyTitleVillaPropertyLocationDamascusTotalChances44IsCompleted0TotalInvested5400000ChancePrice900000ProgressPercent1277PaginationCurrentPage1LastPage4PerPage6Total20NextPageUrlHttp1270018000ApiV1GetInvestmentPropertyInfoPage2PrevPageUrlNull(data['data'] as Map<String, dynamic>),
+		);
+	}
+
+	// Clean parser for normal API shape
+	factory PostedPropertiesResponse.fromApi(Map<String, dynamic> json) {
+		return PostedPropertiesResponse(
+			message: json['message'] as String?,
+			data: json['data'] == null
+					? null
+					: Data.fromApi(json['data'] as Map<String, dynamic>),
+		);
+	}
+
+	Map<String, dynamic> toMessageDataPropertiesPropertyId1PropertyTitleLandPropertyLocationDamascusCountrysideTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId2PropertyTitleAppartmentPropertyLocationDamascusTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId3PropertyTitleVillaPropertyLocationLatakiaTotalChances11IsCompleted0TotalInvested35100000ChancePrice900000ProgressPercent10000PropertyId4PropertyTitleAppartmentPropertyLocationHalabTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId5PropertyTitleLandPropertyLocationTartousTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId6PropertyTitleVillaPropertyLocationDamascusTotalChances44IsCompleted0TotalInvested5400000ChancePrice900000ProgressPercent1277PaginationCurrentPage1LastPage4PerPage6Total20NextPageUrlHttp1270018000ApiV1GetInvestmentPropertyInfoPage2PrevPageUrlNull() {
+		return {
+			'message': message,
+			'data': data?.toMessageDataPropertiesPropertyId1PropertyTitleLandPropertyLocationDamascusCountrysideTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId2PropertyTitleAppartmentPropertyLocationDamascusTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId3PropertyTitleVillaPropertyLocationLatakiaTotalChances11IsCompleted0TotalInvested35100000ChancePrice900000ProgressPercent10000PropertyId4PropertyTitleAppartmentPropertyLocationHalabTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId5PropertyTitleLandPropertyLocationTartousTotalChances50IsCompleted0TotalInvested0ChancePrice900000ProgressPercent000PropertyId6PropertyTitleVillaPropertyLocationDamascusTotalChances44IsCompleted5400000ChancePrice900000ProgressPercent1277PaginationCurrentPage1LastPage4PerPage6Total20NextPageUrlHttp1270018000ApiV1GetInvestmentPropertyInfoPage2PrevPageUrlNull(),		};
+	}
+
+	/// `dart:convert`
+	///
+	/// Parses the string and returns the resulting Json object as [PostedPropertiesResponse].
+	factory PostedPropertiesResponse.fromJson(String data) {
+		return PostedPropertiesResponse.from(json.decode(data) as Map<String, dynamic>);
+	}
+	/// `dart:convert`
+	///
+	/// Converts [PostedPropertiesResponse] to a JSON string.
+	String toJson() => json.encode(());
+}

@@ -1,5 +1,5 @@
 import 'package:economic_team_desktop/buisness_logic/chat%20users%20bloc/chat_users_bloc.dart';
-import 'package:economic_team_desktop/buisness_logic/create%20property%20indicators%20bloc/create_property_indicators_bloc.dart';
+import 'package:economic_team_desktop/buisness_logic/create%20property%20indicator%20bloc/create_property_indicators_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/cubit/negotiation_data_cubit_cubit.dart';
 import 'package:economic_team_desktop/buisness_logic/currency%20bloc/currency_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/negotion%20offer%20bloc/negotiation_offer_bloc.dart';
@@ -11,20 +11,18 @@ import 'package:economic_team_desktop/buisness_logic/send%20economic%20study%20b
 import 'package:economic_team_desktop/buisness_logic/send%20property%20indicators%20bloc/send_property_indicators_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/statistics%20chart%20bloc/staitstics_chart_bloc.dart';
 import 'package:economic_team_desktop/buisness_logic/user%20bloc/user_bloc.dart';
+import 'package:economic_team_desktop/buisness_logic/user%20sales%20requests%20bloc/user_sales_requests_bloc.dart';
+import 'package:economic_team_desktop/buisness_logic/posted%20properties%20bloc/posted_properties_bloc.dart';
 import 'package:economic_team_desktop/data/services/auth%20services/auth_repo_impl.dart';
 import 'package:economic_team_desktop/data/services/chat%20services/chat_services.dart';
 import 'package:economic_team_desktop/data/services/requests%20srevices/requsets_repo_impl.dart';
 import 'package:economic_team_desktop/data/services/statistics%20services/statistics_repo_impl.dart';
-import 'package:economic_team_desktop/firebase_options.dart';
 import 'package:economic_team_desktop/utility/app_bloc_observer.dart';
 import 'package:economic_team_desktop/utility/app_colors.dart';
 import 'package:economic_team_desktop/utility/cash_helper.dart';
 import 'package:economic_team_desktop/utility/handle_cash.dart';
 import 'package:economic_team_desktop/utility/router.dart';
 import 'package:economic_team_desktop/utility/service_locator.dart';
-//import 'package:firebase_core/firebase_core.dart';
-
-//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -32,9 +30,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   // String? token = await FirebaseMessaging.instance.getToken();
   // print('here is the token');
   // print('here is the token: $token');
@@ -48,12 +44,11 @@ Future<void> main() async {
 
 class SalvestDesktop extends StatelessWidget {
   const SalvestDesktop({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(1440, 1024), // Adjust to your design spec
+      designSize: const Size(1440, 1024),
       minTextAdapt: true,
       splitScreenMode: true,
       child: MultiBlocProvider(
@@ -66,6 +61,12 @@ class SalvestDesktop extends StatelessWidget {
                 (context) =>
                     PropertyRequestsBloc(getIt.get<RequsetsRepoImpl>()),
           ),
+          BlocProvider(
+            create:
+                (context) =>
+                    UserSalesRequestsBloc(getIt.get<RequsetsRepoImpl>()),
+          ),
+          //
           BlocProvider(
             create:
                 (context) =>
@@ -96,27 +97,26 @@ class SalvestDesktop extends StatelessWidget {
                   getIt.get<StatisticsRepoImpl>(),
                 )..add(GetRequstesStatisticsEvent(year: DateTime.now().year)),
           ),
-     BlocProvider(
+          BlocProvider(
             create:
-                (context) => StaitsticsChartBloc(
-                  getIt.get<StatisticsRepoImpl>(),
-                )..add(GetStaitsticsChartEvent(year: DateTime.now().year)),
+                (context) =>
+                    StaitsticsChartBloc(getIt.get<StatisticsRepoImpl>())
+                      ..add(GetStaitsticsChartEvent(year: DateTime.now().year)),
           ),
-
-          
           BlocProvider(
             create:
                 (context) =>
                     SendPropertyIndicatorsBloc(getIt.get<RequsetsRepoImpl>()),
           ),
-            BlocProvider(
-            create:
-                (context) =>
-                    ChatUsersBloc(getIt.get<ChatService>()),
+          BlocProvider(
+            create: (context) => ChatUsersBloc(getIt.get<ChatService>()),
+          ),
+          BlocProvider(
+            create: (context) => PostedPropertiesBloc(getIt.get<RequsetsRepoImpl>()),
           ),
           BlocProvider(create: (context) => CreatePropertyIndicatorsBloc()),
-          //  CurrencyBloc
-          // CreatePropertyIndicatorsBloc
+
+          //CreatePropertyIndicatorsBloc
         ],
         child: MaterialApp.router(
           builder: EasyLoading.init(),

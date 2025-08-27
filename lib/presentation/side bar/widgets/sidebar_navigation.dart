@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:economic_team_desktop/buisness_logic/posted%20properties%20bloc/posted_properties_bloc.dart';
 
 class SidebarNavigation extends StatelessWidget {
   final int selectedIndex;
@@ -101,17 +102,28 @@ class SidebarNavigation extends StatelessWidget {
           ),
           Expanded(
             child: NavigationItem(
+              icon: Assets.images.balance.image(width: 25.w, height: 25.w),
+              label: 'Posted',
+              isSelected: selectedIndex == 4,
+              onTap: () {
+                context.read<PostedPropertiesBloc>().add(GetPostedPropertiesEvent(refresh: true));
+                onItemSelected(4);
+              },
+            ),
+          ),
+          Expanded(
+            child: NavigationItem(
               icon: Assets.images.negotiationIcon.image(
                 width: 25.w,
                 height: 25.w,
               ),
               label: 'Negotiations',
-              isSelected: selectedIndex == 4,
+              isSelected: selectedIndex == 5,
               onTap: () {
                 context.read<ChatUsersBloc>().add(
                   GetChatUsersEvent(userId: userId!),
                 );
-                onItemSelected(4);
+                onItemSelected(5);
               },
               //  () =>
             ),
@@ -134,8 +146,8 @@ class SidebarNavigation extends StatelessWidget {
             child: NavigationItem(
               icon: Assets.images.settings.image(width: 25.w, height: 25.w),
               label: 'Settings',
-              isSelected: selectedIndex == 5,
-              onTap: () => onItemSelected(5),
+              isSelected: selectedIndex == 6,
+              onTap: () => onItemSelected(6),
             ),
           ),
           SizedBox(height: 10.h),
@@ -143,7 +155,7 @@ class SidebarNavigation extends StatelessWidget {
             child: NavigationItem(
               icon: Assets.images.logout.image(width: 25.w, height: 25.w),
               label: 'Logout',
-              isSelected: selectedIndex == 6,
+              isSelected: selectedIndex == 7,
               onTap: () {
                 removeCache();
                 GoRouter.of(context).push(AppRouter.kLogin);

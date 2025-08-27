@@ -29,13 +29,46 @@ class PropertyDescriptionWidget extends StatelessWidget {
   final int overlookFrom;
   final int balconySize;
   final String paintingType;
-  final List<String> decorations = ['deluxe', 'modern', 'classic'];
+  final List<String> decorations = [
+    'deleux',
+    'modern',
+    'classic',
+    'oily',
+    'normal',
+  ];
 
-  final List<String> kitchenTypes = ['westren', 'open', 'closed'];
+  final List<String> kitchenTypes = [
+    'western',
+    'open',
+    'closed',
+    'american',
+    'European',
+    'traditional',
+    'arabic',
+  ];
 
-  final List<String> flooringTypes = ['granite', 'marble', 'wood'];
+  final List<String> flooringTypes = [
+    'granite',
+    'marble',
+    'wood',
+    'tile',
+    'parquet',
+    'parquet wood',
+    'ceramic and wood',
+    'marble and wood',
+  ];
 
-  final List<String> paintingTypes = ['regular', 'matte', 'glossy'];
+  final List<String> paintingTypes = [
+    'regular',
+    'matte',
+    'glossy',
+    'oily',
+    'decorative',
+    'latix',
+    'plastic',
+    'italian',
+    'french',
+  ];
 
   @override
   Widget build(BuildContext context) {

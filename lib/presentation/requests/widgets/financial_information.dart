@@ -17,7 +17,8 @@ class FinancialInformation extends StatelessWidget {
     final List<String> payWays = [
       'cash',
       'installment',
-     
+      'matte',
+      'bank',
     ]; // Consider moving to constants
 
     return Column(
@@ -30,7 +31,7 @@ class FinancialInformation extends StatelessWidget {
             'Financial information:',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 15,
+              fontSize: 15.sp,
               fontFamily: 'Inter',
               fontWeight: FontWeight.w400,
             ),

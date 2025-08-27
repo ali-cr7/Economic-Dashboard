@@ -58,7 +58,7 @@ class RequestsView extends StatelessWidget {
                   requestsState.getRequestsFromLawyerResponse.data!.isEmpty) {
                 return Expanded(
                   child: SomethingWrongWidget(
-                    title: "No Questions found !",
+                    title: "No Request found !",
                     svgPath: 'assets/images/search.svg',
                     elevatedButtonWidget: ElevatedButtonWidget(
                       title: "Refresh",
